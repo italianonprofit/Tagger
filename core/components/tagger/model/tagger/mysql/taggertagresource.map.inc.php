@@ -1,7 +1,4 @@
 <?php
-/**
- * @package tagger
- */
 $xpdo_meta_map['TaggerTagResource']= array (
   'package' => 'tagger',
   'version' => '1.1',
@@ -11,6 +8,7 @@ $xpdo_meta_map['TaggerTagResource']= array (
   array (
     'tag' => NULL,
     'resource' => NULL,
+    'classKey' => NULL,
   ),
   'fieldMeta' => 
   array (
@@ -32,6 +30,14 @@ $xpdo_meta_map['TaggerTagResource']= array (
       'null' => false,
       'index' => 'pk',
     ),
+    'classKey' => 
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '255',
+      'phptype' => 'string',
+      'null' => false,
+      'index' => 'pk',
+    ),
   ),
   'indexes' => 
   array (
@@ -50,6 +56,12 @@ $xpdo_meta_map['TaggerTagResource']= array (
           'null' => false,
         ),
         'resource' => 
+        array (
+          'length' => '',
+          'collation' => 'A',
+          'null' => false,
+        ),
+        'classKey' => 
         array (
           'length' => '',
           'collation' => 'A',

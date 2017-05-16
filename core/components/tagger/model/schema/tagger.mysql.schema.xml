@@ -54,10 +54,13 @@
     <object class="TaggerTagResource" table="tagger_tag_resources" extends="xPDOObject">
         <field key="tag" dbtype="integer" attributes="unsigned" precision="10" phptype="int" null="false" index="pk" />
         <field key="resource" dbtype="integer" attributes="unsigned" precision="10" phptype="int" null="false" index="pk" />
+        <field key="classKey" dbtype="varchar" precision="255" phptype="string" null="false" index="pk" />
+
 
         <index alias="PRIMARY" name="PRIMARY" primary="true" unique="true" type="BTREE">
             <column key="tag" length="" collation="A" null="false" />
             <column key="resource" length="" collation="A" null="false" />
+            <column key="classKey" length="" collation="A" null="false" />
         </index>
 
         <aggregate alias="Tag" class="TaggerTag" local="tag" foreign="id" cardinality="one" owner="foreign" />

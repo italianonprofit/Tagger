@@ -55,7 +55,9 @@ $c = $modx->newQuery('TaggerTag');
 
 $c->leftJoin('TaggerTagResource', 'Resources');
 $c->leftJoin('TaggerGroup', 'Group');
-$c->leftJoin('modResource', 'Resource', array('Resources.resource = Resource.id'));
+// MODIFICA INP
+$c->leftJoin('modResource', 'Resource', array('Resources.resource = Resource.id AND Resource.class_key = Resources.classKey'));
+// FINE MODIFICA INP
 
 
 if (!empty($contexts)) {

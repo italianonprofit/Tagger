@@ -17,8 +17,9 @@ class TaggerUnassignResourceRemoveProcessor extends modProcessor {
         $resource = $this->modx->tagger->explodeAndClean($resource);
 
         if (empty($tag) || empty($resource)) return $this->modx->lexicon($this->objectType.'_err_ns');
-
-        $this->modx->removeCollection($this->classKey, array('tag' => $tag, 'resource:IN' => $resource));
+        // MODIFICA INP
+        $this->modx->removeCollection($this->classKey, array('tag' => $tag, 'resource:IN' => $resource, 'class_key:IN'=>array('modDocument','modStaticResource','modResource')));
+        // FINE MODIFICA INP
 
         return $this->success();
     }

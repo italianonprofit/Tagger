@@ -47,7 +47,9 @@ class TaggerOnDocFormSave extends TaggerPlugin
                     /** @var TaggerTag $tagObject */
                     $tagObject = $this->modx->getObject('TaggerTag', array('tag' => $tag, 'group' => $group->id));
                     if ($tagObject) {
-                        $existsRelation = $this->modx->getObject('TaggerTagResource', array('tag' => $tagObject->id, 'resource' => $resource->id));
+                        // MODIFICA INP
+                        $existsRelation = $this->modx->getObject('TaggerTagResource', array('tag' => $tagObject->id, 'resource' => $resource->id, 'classKey'=> $resource->class_key));
+                        // FINE MODIFICA INP
                         if ($existsRelation) {
                             if (isset($oldTags[$existsRelation->tag])) {
                                 unset($oldTags[$existsRelation->tag]);
@@ -72,6 +74,9 @@ class TaggerOnDocFormSave extends TaggerPlugin
                     $relationObject = $this->modx->newObject('TaggerTagResource');
                     $relationObject->set('tag', $tagObject->id);
                     $relationObject->set('resource', $resource->id);
+                    // MODIFICA INP
+                    $relationObject->set('classKey', $resource->class_key);
+                    // FINE MODIFICA INP
                     $relationObject->save();
                 }
             }
@@ -80,7 +85,10 @@ class TaggerOnDocFormSave extends TaggerPlugin
                 $oldTags = array_keys($oldTags);
                 $this->modx->removeCollection('TaggerTagResource', array(
                     'tag:IN' => $oldTags,
-                    'AND:resource:=' => $resource->id
+                    'AND:resource:=' => $resource->id,
+                    // MODIFICA INP
+                    'AND:classKey:=' => $resource->class_key,
+                    // FINE MODIFICA INP
                 ));
             }
 

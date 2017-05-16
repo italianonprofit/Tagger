@@ -26,8 +26,9 @@ class TaggerAssignedResourcesGetListProcessor extends modObjectGetListProcessor 
     public function prepareQueryBeforeCount(xPDOQuery $c) {
         $query = $this->getProperty('query');
         $tagId = $this->getProperty('tagId');
-
-        $c->leftJoin('TaggerTagResource', 'TagResource', array('modResource.id = TagResource.resource'));
+        // MODIFICA INP
+        $c->leftJoin('TaggerTagResource', 'TagResource', array('modResource.id = TagResource.resource AND TagResource.classKey = modResource.class_key'));
+        // FINE MODIFICA INP
         $c->where(array(
             'TagResource.tag' => $tagId
         ));

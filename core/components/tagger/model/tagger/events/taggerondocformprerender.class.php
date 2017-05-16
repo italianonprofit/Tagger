@@ -41,7 +41,11 @@ class TaggerOnDocFormPrerender extends TaggerPlugin {
         if ($mode == 'upd') {
             $c = $this->modx->newQuery('TaggerTagResource');
             $c->leftJoin('TaggerTag', 'Tag');
-            $c->where(array('resource' => intval($_GET['id'])));
+            // MODIFICA INP
+            $c->where(array('resource' => intval($_GET['id']),
+                    'classKey:IN'=>array('modDocument','modResource','modStaticResource')
+            ));
+            // FINE MODIFICA INP
             $c->sortby('Tag.alias', 'ASC');
             $c->select($this->modx->getSelectColumns('TaggerTagResource', 'TaggerTagResource', '', array('resource')));
             $c->select($this->modx->getSelectColumns('TaggerTag', 'Tag', '', array('tag', 'group')));

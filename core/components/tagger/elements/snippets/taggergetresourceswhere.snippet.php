@@ -131,11 +131,12 @@ $tagIDs = $c->stmt->fetchAll(PDO::FETCH_COLUMN, 0);
 if (count($tagIDs) == 0) {
     $tagIDs[] = 0;
 }
-
+// MODIFICA INP
 if ($matchAll == 0) {
-    $where[] = "EXISTS (SELECT 1 FROM {$modx->getTableName('TaggerTagResource')} r WHERE r.tag IN (" . implode(',', $tagIDs) . ") AND r.resource = modResource." . $field . ")";
+    $where[] = "EXISTS (SELECT 1 FROM {$modx->getTableName('TaggerTagResource')} r WHERE r.tag IN (" . implode(',', $tagIDs) . ") AND r.resource = modResource." . $field . " AND modResource.class_key IN ('modDocument','modStaticResource','modResource'))";
 } else {
-    $where[] = "EXISTS (SELECT 1 as found FROM {$modx->getTableName('TaggerTagResource')} r WHERE r.tag IN (" . implode(',', $tagIDs) . ") AND r.resource = modResource." . $field . " GROUP BY found HAVING count(found) = " . $tagsCount . ")";
+    $where[] = "EXISTS (SELECT 1 as found FROM {$modx->getTableName('TaggerTagResource')} r WHERE r.tag IN (" . implode(',', $tagIDs) . ") AND r.resource = modResource." . $field . " AND modResource.class_key IN ('modDocument','modStaticResource','modResource') GROUP BY found HAVING count(found) = " . $tagsCount . ")";
 }
+// FINE MODIFICA INP
 
 return $modx->toJSON($where);

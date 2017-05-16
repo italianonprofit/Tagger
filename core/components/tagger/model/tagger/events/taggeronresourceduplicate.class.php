@@ -16,6 +16,7 @@ class TaggerOnResourceDuplicate extends TaggerPlugin
             /** @var TaggerTagResource $newRelation */
             $newRelation = $this->modx->newObject('TaggerTagResource');
             $newRelation->set('resource', $newResource->id);
+            $newRelation->set('classKey', $newResource->class_key);
             $newRelation->set('tag', $oldRelation->tag);
             $newRelation->save();
         }
@@ -38,6 +39,7 @@ class TaggerOnResourceDuplicate extends TaggerPlugin
             foreach ($oldRelations as $oldRelation) {
                 $newRelation = $this->modx->newObject('TaggerTagResource');
                 $newRelation->set('resource', $newChildren[$oldNew[$key]]->id);
+                $newRelation->set('resource', $newChildren[$oldNew[$key]]->class_key);
                 $newRelation->set('tag', $oldRelation->tag);
                 $newRelation->save();
             }

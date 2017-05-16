@@ -1,7 +1,4 @@
 <?php
-/**
- * @package tagger
- */
 $xpdo_meta_map['TaggerGroup']= array (
   'package' => 'tagger',
   'version' => '1.1',

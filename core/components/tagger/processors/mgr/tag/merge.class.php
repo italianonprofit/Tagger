@@ -28,6 +28,7 @@ class TaggerTagMergeProcessor extends modObjectProcessor {
                 $newRelation = $this->modx->newObject('TaggerTagResource');
                 $newRelation->set('tag', $toUpdate);
                 $newRelation->set('resource', $tagResource->resource);
+                $newRelation->set('classKey', $tagResource->classKey);
 
                 $tagResource->remove();
                 $newRelation->save();
