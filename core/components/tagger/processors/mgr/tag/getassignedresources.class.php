@@ -6,9 +6,9 @@
  * @subpackage processors
  */
 class TaggerAssignedResourcesGetListProcessor extends modObjectGetListProcessor {
-    public $classKey = 'modResource';
+    public $classKey = 'TaggerTagResource';
     public $languageTopics = array('tagger:default');
-    public $defaultSortField = 'pagetitle';
+    public $defaultSortField = 'TaggerTag.tag';
     public $defaultSortDirection = 'ASC';
     public $objectType = 'modResource';
 
@@ -26,20 +26,42 @@ class TaggerAssignedResourcesGetListProcessor extends modObjectGetListProcessor 
     public function prepareQueryBeforeCount(xPDOQuery $c) {
         $query = $this->getProperty('query');
         $tagId = $this->getProperty('tagId');
-        // MODIFICA INP
-        $c->leftJoin('TaggerTagResource', 'TagResource', array('modResource.id = TagResource.resource AND TagResource.classKey = modResource.class_key'));
-        // FINE MODIFICA INP
-        $c->where(array(
-            'TagResource.tag' => $tagId
-        ));
 
+        $c->innerJoin('TaggerTag', 'TaggerTag', array('TaggerTag.id = TaggerTagResource.tag'));
+        $c->leftJoin('Organizations', 'Organizations', array('Organizations.id = TaggerTagResource.resource AND TaggerTagResource.classKey = "Organizations"'));
+        $c->leftJoin('Cooperatives', 'Cooperatives', array('Cooperatives.id = TaggerTagResource.resource AND TaggerTagResource.classKey = "Cooperatives"'));
+
+        $c->select(array(
+            $this->modx->getSelectColumns('TaggerTagResource','TaggerTagResource'),
+            "Organizations.name as Organizations_pagetitle",
+            "Cooperatives.name as Cooperatives_pagetitle",
+            "TaggerTag.alias as alias"
+        ));
+        $c->where(array(
+            'TaggerTagResource.tag' => $tagId
+        ));
         if (!empty($query)) {
             $c->where(array(
-                    'pagetitle:LIKE' => '%'.$query.'%'
+                'Organizations_pagetitle:LIKE' => '%'.$query.'%',
+                'OR:Cooperatives_pagetitle:LIKE' => '%'.$query.'%',
+                'OR:pagetitle:LIKE' => '%'.$query.'%'
             ));
         }
 
+        $c->groupby("TaggerTagResource.resource");
         return $c;
+    }
+
+    public function prepareRow(xPDOObject $object) {
+        $objArray =  $object->toArray();
+        if($objArray['classKey'] == "Organizations"){
+            $objArray['pagetitle'] = "(".$objArray['classKey'].") ".$objArray['Organizations_pagetitle'];
+            $objArray['id'] = $objArray['resource'];
+        }if($objArray['classKey'] == "Cooperatives"){
+            $objArray['id'] = $objArray['resource'];
+            $objArray['pagetitle'] = "(".$objArray['classKey'].") ".$objArray['Cooperatives_pagetitle'];
+        }
+        return $objArray;
     }
 
 }

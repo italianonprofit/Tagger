@@ -333,7 +333,7 @@ Tagger.grid.AssignedResources = function(config) {
         ,baseParams: {
             action: 'mgr/tag/getassignedresources'
         }
-        ,fields: ['id','pagetitle', 'alias']
+        ,fields: ['id','pagetitle', 'alias','classKey']
         ,autoHeight: true
         ,paging: true
         ,remoteSort: true
@@ -446,6 +446,7 @@ Ext.extend(Tagger.grid.AssignedResources,MODx.grid.Grid,{
 
     ,unassignResource: function() {
         if (!this.menu.record) return false;
+        console.debug(this.menu.record.classKey);
 
         MODx.msg.confirm({
             title: _('tagger.tag.resource_unassign')
@@ -455,6 +456,7 @@ Ext.extend(Tagger.grid.AssignedResources,MODx.grid.Grid,{
                 action: 'mgr/tag/unassign'
                 ,tag: this.config.baseParams.tagId
                 ,resource: this.menu.record.id
+                ,classKey: this.menu.record.classKey
             }
             ,listeners: {
                 'success': {fn:function(r) { this.refresh(); },scope:this}
@@ -465,7 +467,7 @@ Ext.extend(Tagger.grid.AssignedResources,MODx.grid.Grid,{
     ,unassignSelected: function() {
         var resources = this.getSelectedAsList();
         if (!resources) return false;
-
+        console.debug(this.config.record.classKey);
         MODx.msg.confirm({
             title: _('tagger.tag.resource_unassign')
             ,text: _('tagger.tag.resource_unassign_multiple_confirm', {resources: resources})
@@ -474,6 +476,7 @@ Ext.extend(Tagger.grid.AssignedResources,MODx.grid.Grid,{
                 action: 'mgr/tag/unassign'
                 ,tag: this.config.baseParams.tagId
                 ,resource: resources
+                ,classKey: this.config.record.classKey
             }
             ,listeners: {
                 'success': {fn:function(r) { this.refresh(); },scope:this}

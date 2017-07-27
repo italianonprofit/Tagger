@@ -13,12 +13,15 @@ class TaggerUnassignResourceRemoveProcessor extends modProcessor {
     public function process() {
         $tag = $this->getProperty('tag');
         $resource = $this->getProperty('resource');
-
+        $classKey = $this->getProperty('classKey');
+        if(empty($classKey)){
+            return $this->failure('classKey not set');
+        }
         $resource = $this->modx->tagger->explodeAndClean($resource);
 
         if (empty($tag) || empty($resource)) return $this->modx->lexicon($this->objectType.'_err_ns');
         // MODIFICA INP
-        $this->modx->removeCollection($this->classKey, array('tag' => $tag, 'resource:IN' => $resource, 'class_key:IN'=>array('modDocument','modStaticResource','modResource')));
+        $this->modx->removeCollection($this->classKey, array('tag' => $tag, 'resource:IN' => $resource, 'classKey'=>$classKey));
         // FINE MODIFICA INP
 
         return $this->success();
