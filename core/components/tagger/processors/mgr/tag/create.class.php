@@ -16,7 +16,7 @@ class TaggerTagCreateProcessor extends modObjectCreateProcessor {
         $name = $this->getProperty('tag');
         $group = $this->getProperty('group');
         $alias = $this->getProperty('alias');
-        $classKey = $this->getProperty('classKey');
+        //$classKey = $this->getProperty('classKey');
 
         if (empty($name) || empty($group) || empty($classKey)) {
             if (empty($group)) {
@@ -26,9 +26,9 @@ class TaggerTagCreateProcessor extends modObjectCreateProcessor {
             if (empty($name)) {
                 $this->addFieldError('tag',$this->modx->lexicon('tagger.err.tag_name_ns'));
             }
-            if (empty($classKey)) {
+            /*if (empty($classKey)) {
                 $this->addFieldError('classKey',$this->modx->lexicon('tagger.err.classKey_name_ns'));
-            }
+            }*/
         } else {
             if ($this->doesAlreadyExist(array('tag' => $name, 'group' => $group))) {
                 $this->addFieldError('tag',$this->modx->lexicon('tagger.err.tag_name_ae'));

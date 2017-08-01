@@ -41,6 +41,7 @@ if (!($tagger instanceof Tagger)) return '';
 $resources = $modx->getOption('resources', $scriptProperties, '');
 $parents = $modx->getOption('parents', $scriptProperties, '');
 $groups = $modx->getOption('groups', $scriptProperties, '');
+$classKey = $modx->getOption('classKey', $scriptProperties, 'modResource');
 $target = (int) $modx->getOption('target', $scriptProperties, $modx->resource->id, true);
 $showUnused = (int) $modx->getOption('showUnused', $scriptProperties, '0');
 $showUnpublished = (int) $modx->getOption('showUnpublished', $scriptProperties, '0');
@@ -79,47 +80,51 @@ $c = $modx->newQuery('TaggerTag');
 $c->leftJoin('TaggerTagResource', 'Resources');
 $c->leftJoin('TaggerGroup', 'Group');
 // MODIFICA INP
-$c->leftJoin('modResource', 'Resource', array('Resources.resource = Resource.id AND Resource.class_key = Resources.classKey'));
+if($classKey == "modResource"){
+$c->leftJoin('modResource', 'Resource', array('Resources.resource = Resource.id AND Resources.classKey = "modResource"'));
+
+    if (!empty($parents)) {
+        $c->where(array(
+            'Resource.parent:IN' => $parents,
+        ));
+    }
+
+    if (!empty($contexts)) {
+        $c->where(array(
+            'Resource.context_key:IN' => $contexts,
+        ));
+    }
+
+    if ($showUnpublished == 0) {
+        $c->where(array(
+            'Resource.published' => 1,
+            'OR:Resource.published:IN' => null,
+        ));
+    }
+
+    if ($showDeleted == 0) {
+        $c->where(array(
+            'Resource.deleted' => 0,
+            'OR:Resource.deleted:IS' => null,
+        ));
+    }
+
+    if ($showUnused == 0) {
+        $c->having(array(
+            'cnt > 0',
+        ));
+    }
+
+    if (!empty($resources)) {
+        $c->where(array(
+            'Resources.resource:IN' => $resources
+        ));
+    }
+}else{
+$c->leftJoin($classKey, $classKey, array('Resources.resource = '.$classKey.'.id AND Resources.classKey = "'.$classKey.'"'));
+}
 // FINE MODIFICA INP
 
-
-if (!empty($parents)) {
-    $c->where(array(
-        'Resource.parent:IN' => $parents,
-    ));
-}
-
-if (!empty($contexts)) {
-    $c->where(array(
-        'Resource.context_key:IN' => $contexts,
-    ));
-}
-
-if ($showUnpublished == 0) {
-    $c->where(array(
-        'Resource.published' => 1,
-        'OR:Resource.published:IN' => null,
-    ));
-}
-
-if ($showDeleted == 0) {
-    $c->where(array(
-        'Resource.deleted' => 0,
-        'OR:Resource.deleted:IS' => null,
-    ));
-}
-
-if ($showUnused == 0) {
-    $c->having(array(
-        'cnt > 0',
-    ));
-}
-
-if (!empty($resources)) {
-    $c->where(array(
-        'Resources.resource:IN' => $resources
-    ));
-}
 
 if ($groups) {
     $c->where(array(

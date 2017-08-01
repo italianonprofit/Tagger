@@ -30,18 +30,39 @@ class TaggerTagMergeProcessor extends modObjectProcessor {
                 $newRelation->set('resource', $tagResource->resource);
                 $newRelation->set('classKey', $tagResource->classKey);
 
-                $tagResource->remove();
-                $newRelation->save();
+                if(!($tagResource->remove())){
+                    $this->failure("errore durante rimozione TaggerTagResource");
+                    return false;
+                }
+                if(!($newRelation->save())){
+                    $this->failure("errore durante salvataggio nuovo TaggerTagResource");
+                    return false;
+                }
             }
 
             $tagObject = $this->modx->getObject($this->classKey, $tag);
-            $tagObject->remove();
+            if(!$tagObject){
+                $this->failure("TaggerTag non trovato con tagId = ".$tag);
+                return false;
+            }
+            if(!($tagObject->remove())){
+                $this->failure("errore durante rimozione TaggerTag");
+                return false;
+            }
         }
 
         /** @var TaggerTag $toUpdate */
         $toUpdate = $this->modx->getObject($this->classKey, $toUpdate);
+        if(!$toUpdate){
+            $this->failure("TaggerTag toUpdate non trovato");
+            return false;
+        }
         $toUpdate->set('tag', $name);
-        $toUpdate->save();
+
+        if(!($toUpdate->save())){
+            $this->failure("errore durante salvataggio TaggerTag toUpdate");
+            return false;
+        }
 
         return $this->success();
     }
@@ -60,7 +81,7 @@ class TaggerTagMergeProcessor extends modObjectProcessor {
             return false;
         }
 
-        $exists = $this->modx->getCount($this->classKey, array('tag' => $name, 'id:NOT IN' => $tags));
+        $exists = $this->modx->getCount($this->classKey, array('tag:=' => $name, 'id:NOT IN' => $tags));
         if ($exists > 0) {
             $this->addFieldError('name', $this->modx->lexicon('tagger.err.tag_name_ae'));
             return false;
