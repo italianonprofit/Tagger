@@ -10,7 +10,7 @@ class TaggerAssignedResourcesGetListProcessor extends modObjectGetListProcessor 
     public $languageTopics = array('tagger:default');
     public $defaultSortField = 'TaggerTag.tag';
     public $defaultSortDirection = 'ASC';
-    public $objectType = 'modResource';
+    //public $objectType = 'modResource';
 
     public function beforeQuery() {
 
