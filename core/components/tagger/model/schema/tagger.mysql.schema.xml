@@ -25,8 +25,8 @@
     </object>
 
     <object class="TaggerTag" table="tagger_tags" extends="xPDOSimpleObject">
-        <field key="tag" dbtype="varchar" precision="100" phptype="string" null="false" />
-        <field key="alias" dbtype="varchar" precision="100" phptype="string" null="false" />
+        <field key="tag" dbtype="varchar" precision="255" phptype="string" null="false" />
+        <field key="alias" dbtype="varchar" precision="255" phptype="string" null="false" />
         <field key="group" dbtype="integer" attributes="unsigned" precision="10" phptype="int" null="false" />
         <field key="parent" dbtype="integer" attributes="unsigned" precision="10" phptype="int" null="true" />
         <field key="rank" dbtype="integer" attributes="unsigned" precision="10" phptype="int" null="false" default="0" />

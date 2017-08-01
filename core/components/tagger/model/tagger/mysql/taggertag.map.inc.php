@@ -9,6 +9,7 @@ $xpdo_meta_map['TaggerTag']= array (
     'tag' => NULL,
     'alias' => NULL,
     'group' => NULL,
+    'parent' => NULL,
     'rank' => 0,
   ),
   'fieldMeta' => 
@@ -16,14 +17,14 @@ $xpdo_meta_map['TaggerTag']= array (
     'tag' => 
     array (
       'dbtype' => 'varchar',
-      'precision' => '100',
+      'precision' => '255',
       'phptype' => 'string',
       'null' => false,
     ),
     'alias' => 
     array (
       'dbtype' => 'varchar',
-      'precision' => '100',
+      'precision' => '255',
       'phptype' => 'string',
       'null' => false,
     ),
@@ -34,6 +35,14 @@ $xpdo_meta_map['TaggerTag']= array (
       'precision' => '10',
       'phptype' => 'int',
       'null' => false,
+    ),
+    'parent' => 
+    array (
+      'dbtype' => 'integer',
+      'attributes' => 'unsigned',
+      'precision' => '10',
+      'phptype' => 'int',
+      'null' => true,
     ),
     'rank' => 
     array (
@@ -85,6 +94,22 @@ $xpdo_meta_map['TaggerTag']= array (
         ),
       ),
     ),
+    'iParent' => 
+    array (
+      'alias' => 'iParent',
+      'primary' => false,
+      'unique' => false,
+      'type' => 'BTREE',
+      'columns' => 
+      array (
+        'parent' => 
+        array (
+          'length' => '',
+          'collation' => 'A',
+          'null' => true,
+        ),
+      ),
+    ),
     'iAlias' => 
     array (
       'alias' => 'iAlias',
@@ -131,6 +156,14 @@ $xpdo_meta_map['TaggerTag']= array (
   ),
   'aggregates' => 
   array (
+    'Parent' => 
+    array (
+      'class' => 'TaggerTag',
+      'local' => 'parent',
+      'foreign' => 'id',
+      'cardinality' => 'one',
+      'owner' => 'foreign',
+    ),
     'Group' => 
     array (
       'class' => 'TaggerGroup',
