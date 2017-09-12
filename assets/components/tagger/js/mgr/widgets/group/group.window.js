@@ -154,6 +154,14 @@ Ext.extend(Tagger.window.Group,MODx.Window, {
                 }, scope: this}
             }
         },{
+            xtype: 'tagger-combo-filter-type'
+            ,fieldLabel: _('tagger.group.filter_type')
+            ,description: _('tagger.group.filter_type_desc')
+            ,name: 'filter_type'
+            ,hiddenName: 'filter_type'
+            ,allowBlank: true
+            ,width:'100%'
+        },{
             layout: 'column'
             ,border: false
             ,anchor: '100%'
@@ -193,6 +201,11 @@ Ext.extend(Tagger.window.Group,MODx.Window, {
                     hiddenName: 'sort_dir'
                 }]
             }]
+        },{
+            xtype: 'xcheckbox'
+            ,fieldLabel: _('tagger.group.searchable')
+            ,description: _('tagger.group.searchable_desc')
+            ,name: 'searchable'
         },{
             xtype: 'xcheckbox'
             ,fieldLabel: _('tagger.group.remove_unused')

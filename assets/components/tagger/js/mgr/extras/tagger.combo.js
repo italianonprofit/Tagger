@@ -64,6 +64,35 @@ Tagger.combo.FieldType = function(config) {
 Ext.extend(Tagger.combo.FieldType,MODx.combo.ComboBox);
 Ext.reg('tagger-combo-field-type',Tagger.combo.FieldType);
 
+Tagger.combo.FilterType = function(config) {
+    config = config || {};
+    Ext.applyIf(config,{
+        store: new Ext.data.SimpleStore({
+            fields: ['d','v']
+            ,data: [
+                ['MULTICHECK' ,'MULTICHECK'],
+                ['RADIO' ,'RADIO'],
+                ['TAGS' ,'TAGS'],
+                ['BOOL' ,'BOOL'],
+                ['TEXT' ,'TEXT']
+            ]
+        })
+        ,displayField: 'd'
+        ,valueField: 'v'
+        ,mode: 'local'
+        ,value: 'tagger-filter-tags'
+        ,triggerAction: 'all'
+        ,editable: false
+        ,selectOnFocus: false
+        ,preventRender: true
+        ,forceSelection: true
+        ,enableKeyEvents: true
+    });
+    Tagger.combo.FilterType.superclass.constructor.call(this,config);
+};
+Ext.extend(Tagger.combo.FilterType,MODx.combo.ComboBox);
+Ext.reg('tagger-combo-filter-type',Tagger.combo.FilterType);
+
 Tagger.combo.Templates = function(config, getStore) {
     config = config || {};
     Ext.applyIf(config,{

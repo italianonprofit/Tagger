@@ -8,7 +8,7 @@ Tagger.grid.Group = function(config) {
         }
         ,save_action: 'mgr/group/updatefromgrid'
         ,autosave: true
-        ,fields: ['id', 'name', 'alias', 'field_type', 'remove_unused', 'allow_new', 'allow_blank', 'allow_type', 'show_autotag', 'hide_input', 'tag_limit', 'show_for_templates', 'position', 'place', 'description', 'in_tvs_position', 'as_radio', 'sort_field', 'sort_dir', 'show_for_contexts']
+        ,fields: ['id', 'name', 'alias', 'filter_type', 'field_type', 'remove_unused', 'allow_new','searchable', 'allow_blank', 'allow_type', 'show_autotag', 'hide_input', 'tag_limit', 'show_for_templates', 'position', 'place', 'description', 'in_tvs_position', 'as_radio', 'sort_field', 'sort_dir', 'show_for_contexts']
         ,autoHeight: true
         ,paging: true
         ,remoteSort: true
@@ -37,6 +37,12 @@ Tagger.grid.Group = function(config) {
             ,width: 100
             ,sortable: true
             ,editor: { xtype: 'tagger-combo-field-type', renderer: true }
+        },{
+            header: _('tagger.group.filter_type')
+            ,dataIndex: 'filter_type'
+            ,width: 100
+            ,sortable: true
+            ,editor: { xtype: 'tagger-combo-filter-type', renderer: true }
         },{
             header: _('tagger.group.remove_unused')
             ,dataIndex: 'remove_unused'
