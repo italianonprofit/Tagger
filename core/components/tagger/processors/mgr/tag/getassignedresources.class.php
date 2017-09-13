@@ -30,11 +30,15 @@ class TaggerAssignedResourcesGetListProcessor extends modObjectGetListProcessor 
         $c->innerJoin('TaggerTag', 'TaggerTag', array('TaggerTag.id = TaggerTagResource.tag'));
         $c->leftJoin('Organizations', 'Organizations', array('Organizations.id = TaggerTagResource.resource AND TaggerTagResource.classKey = "Organizations"'));
         $c->leftJoin('Cooperatives', 'Cooperatives', array('Cooperatives.id = TaggerTagResource.resource AND TaggerTagResource.classKey = "Cooperatives"'));
+        $c->leftJoin('INPSummary', 'INPSummary', array('INPSummary.id = TaggerTagResource.resource AND TaggerTagResource.classKey = "INPSummary"'));
+        $c->leftJoin('modUser', 'modUser', array('INPSummary.user_id = modUser.id'));
 
         $c->select(array(
             $this->modx->getSelectColumns('TaggerTagResource','TaggerTagResource'),
             "Organizations.name as Organizations_pagetitle",
             "Cooperatives.name as Cooperatives_pagetitle",
+            "INPSummary.user_id as INPSummary_user_id",
+            "modUser.username as modUser_username",
             "TaggerTag.alias as alias"
         ));
         $c->where(array(
@@ -60,6 +64,9 @@ class TaggerAssignedResourcesGetListProcessor extends modObjectGetListProcessor 
         }if($objArray['classKey'] == "Cooperatives"){
             $objArray['id'] = $objArray['resource'];
             $objArray['pagetitle'] = "(".$objArray['classKey'].") ".$objArray['Cooperatives_pagetitle'];
+        }if($objArray['classKey'] == "INPSummary"){
+            $objArray['id'] = $objArray['resource'];
+            $objArray['pagetitle'] = "(".$objArray['classKey'].") ".$objArray['modUser_username'];
         }
         return $objArray;
     }
