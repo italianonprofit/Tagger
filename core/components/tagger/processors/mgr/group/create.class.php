@@ -61,7 +61,47 @@ class TaggerGroupCreateProcessor extends modObjectCreateProcessor {
             $this->object->set('as_radio', 0);
         }
 
+        // aggiorno regola htaccess
+        $this->updateHtaccess();
+
         return parent::beforeSave();
+    }
+
+    /**
+     *
+     */
+    private function updateHtaccess(){
+
+        $filepath = MODX_BASE_PATH.".htaccess";
+        $f = fopen($filepath, "r+");
+        $oldstr = file_get_contents($f);
+        $str_to_insert = "RewriteRule ^sfoglia/asdasd-([^/]*)\/$ /sfoglia/?asd[]=$1 [L,QSA]\r";
+        $specificLine = "#findme";
+
+
+// read lines with fgets() until you have reached the right one
+//insert the line and than write in the file.
+
+        $alreadyInsert = false;
+        while (($buffer = fgets($f)) !== false) {
+            if (strpos($buffer, $str_to_insert) !== false) {
+                $alreadyInsert = true;
+            }
+        }
+        if(!$alreadyInsert){
+            //echo "inserisco...";
+            rewind($f);
+            while (($buffer = fgets($f)) !== false) {
+                if (strpos($buffer, $specificLine) !== false) {
+                    //echo "found";
+                    $pos = ftell($f);
+                    $newstr = substr_replace($oldstr, $str_to_insert, $pos, 0);
+                    file_put_contents($filepath, $newstr);
+                    break;
+                }
+            }
+        }
+        fclose($f);
     }
 }
 return 'TaggerGroupCreateProcessor';

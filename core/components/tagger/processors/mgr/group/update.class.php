@@ -47,8 +47,46 @@ class TaggerGroupUpdateProcessor extends modObjectUpdateProcessor {
         if (!(($this->object->show_autotag == 1) && ($this->object->hide_input == 1) && ($this->object->tag_limit == 1))) {
             $this->object->set('as_radio', 0);
         }
-        
+
+        // aggiorno regola htaccess
+        $this->updateHtaccess();
+
         return parent::beforeSave();
+    }
+
+    private function updateHtaccess(){
+        $newname = str_replace("filtro-","",$this->object->alias);
+        $this->modx->log(1,"aggiorno...");
+        $filepath = MODX_BASE_PATH.".htaccess";
+        $f = fopen($filepath, "r+");
+        $oldstr = file_get_contents($filepath);
+        $str_to_insert = "RewriteRule ^sfoglia/".$newname."-([^/]*)\/$ /sfoglia/?".$newname."[]=$1 [L,QSA]\r";
+        $specificLine = "#findme";
+
+
+// read lines with fgets() until you have reached the right one
+//insert the line and than write in the file.
+
+        $alreadyInsert = false;
+        while (($buffer = fgets($f)) !== false) {
+            if (strpos($buffer, $str_to_insert) !== false) {
+                $alreadyInsert = true;
+            }
+        }
+        if(!$alreadyInsert){
+            //echo "inserisco...";
+            rewind($f);
+            while (($buffer = fgets($f)) !== false) {
+                if (strpos($buffer, $specificLine) !== false) {
+                    //echo "found";
+                    $pos = ftell($f);
+                    $newstr = substr_replace($oldstr, $str_to_insert, $pos, 0);
+                    file_put_contents($filepath, $newstr);
+                    break;
+                }
+            }
+        }
+        fclose($f);
     }
 
 }
