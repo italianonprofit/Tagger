@@ -27,7 +27,7 @@ class TaggerTagGetListProcessor extends modObjectGetListProcessor {
 
         if (!empty($query)) {
             $c->where(array(
-                    'tag:LIKE' => '%'.$query.'%'
+                    'LCASE(tag) LIKE LCASE("%'.$query.'%")'
             ));
         }
 
