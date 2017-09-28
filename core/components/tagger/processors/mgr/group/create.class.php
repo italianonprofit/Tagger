@@ -71,12 +71,18 @@ class TaggerGroupCreateProcessor extends modObjectCreateProcessor {
         $filepath = MODX_BASE_PATH.".htaccess";
         $f = fopen($filepath, "r+");
         $oldstr = file_get_contents($filepath);
-        $str_to_insert = "RewriteRule ^sfoglia/".$name."-([^/]*)\/$ /sfoglia/?".$this->object->alias."[]=$1 [L,QSA]\r";
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            $str_to_insert = "RewriteRule ^sfoglia/".$name."-([^/]*)\/$ /sfoglia/?".$this->object->alias."[]=$1 [L,QSA]\r";
+
+        } else {
+            $str_to_insert = "RewriteRule ^sfoglia/".$name."-([^/]*)\/$ /sfoglia/?".$this->object->alias."[]=$1 [L,QSA]\n";
+
+        }
         $specificLine = "#findme";
 
 
-// read lines with fgets() until you have reached the right one
-//insert the line and than write in the file.
+        // read lines with fgets() until you have reached the right one
+        //insert the line and than write in the file.
 
         $alreadyInsert = false;
         while (($buffer = fgets($f)) !== false) {
