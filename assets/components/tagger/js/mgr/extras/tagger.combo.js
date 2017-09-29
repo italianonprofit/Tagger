@@ -74,6 +74,7 @@ Tagger.combo.FilterType = function(config) {
                 ['RADIO' ,'RADIO'],
                 ['TAGS' ,'TAGS'],
                 ['BOOL' ,'BOOL'],
+                ['RANGE' ,'RANGE'],
                 ['TEXT' ,'TEXT']
             ]
         })
