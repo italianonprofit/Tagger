@@ -72,16 +72,23 @@ class TaggerGroupCreateProcessor extends modObjectCreateProcessor {
      */
     private function updateHtaccess(){
 
+        // Genero Alias htaccess
+        $name = $this->object->cleanAlias($this->object->name);
         $filepath = MODX_BASE_PATH.".htaccess";
         $f = fopen($filepath, "r+");
-        $oldstr = file_get_contents($f);
-        $str_to_insert = "RewriteRule ^sfoglia/asdasd-([^/]*)\/$ /sfoglia/?asd[]=$1 [L,QSA]\r";
+        $oldstr = file_get_contents($filepath);
+
+        if ((strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') || (strtoupper(substr(PHP_OS, 0, 3)) === 'DAR')) {
+            $str_to_insert = "RewriteRule ^sfoglia/".$name."-([^/]*)\/$ /sfoglia/?".$this->object->alias."[]=$1 [L,QSA]\r";
+
+        } else {
+            $str_to_insert = "RewriteRule ^sfoglia/".$name."-([^/]*)\/$ /sfoglia/?".$this->object->alias."[]=$1 [L,QSA]\n";
+
+        }
         $specificLine = "#findme";
 
-
-// read lines with fgets() until you have reached the right one
-//insert the line and than write in the file.
-
+        // read lines with fgets() until you have reached the right one
+        //insert the line and than write in the file.
         $alreadyInsert = false;
         while (($buffer = fgets($f)) !== false) {
             if (strpos($buffer, $str_to_insert) !== false) {
@@ -96,7 +103,7 @@ class TaggerGroupCreateProcessor extends modObjectCreateProcessor {
                     //echo "found";
                     $pos = ftell($f);
                     $newstr = substr_replace($oldstr, $str_to_insert, $pos, 0);
-                    file_put_contents($filepath, $newstr);
+                    file_put_contents(MODX_BASE_PATH.".htaccess", $newstr);
                     break;
                 }
             }
