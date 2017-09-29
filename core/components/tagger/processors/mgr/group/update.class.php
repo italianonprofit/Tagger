@@ -75,7 +75,7 @@ class TaggerGroupUpdateProcessor extends modObjectUpdateProcessor {
         $f = fopen($filepath, "r+");
         $oldstr = file_get_contents($filepath);
 
-        if ((strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') || (strtoupper(substr(PHP_OS, 0, 3)) === 'DAR')) {
+        if ((strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')) {
             $str_to_remove = "RewriteRule ^sfoglia/".$this->object->cleanAlias($this->oldValues['name'])."-([^/]*)\/$ /sfoglia/?".$this->oldValues['alias']."[]=$1 [L,QSA]\r";
             $str_to_insert = "RewriteRule ^sfoglia/".$name."-([^/]*)\/$ /sfoglia/?".$this->object->alias."[]=$1 [L,QSA]\r";
 
