@@ -76,11 +76,11 @@ class TaggerGroupUpdateProcessor extends modObjectUpdateProcessor {
         $oldstr = file_get_contents($filepath);
 
         if ((strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') || (strtoupper(substr(PHP_OS, 0, 3)) === 'DAR')) {
-            $str_to_remove = "RewriteRule ^sfoglia/".$this->object->cleanAlias($this->oldValues['name'])."-([^/]*)\/$ /sfoglia/?".$this->oldValues['alias']."[]=$1 [L,QSA]\r";
+            $str_to_remove = "RewriteRule ^sfoglia/".$this->object->cleanAlias($this->oldValues['name'])."-([^/]*)\/$ /sfoglia/?".$this->oldValues['alias']."[]=$1 [L,QSA]";
             $str_to_insert = "RewriteRule ^sfoglia/".$name."-([^/]*)\/$ /sfoglia/?".$this->object->alias."[]=$1 [L,QSA]\r";
 
         } else {
-            $str_to_remove = "RewriteRule ^sfoglia/".$this->object->cleanAlias($this->oldValues['name'])."-([^/]*)\/$ /sfoglia/?".$this->oldValues['alias']."[]=$1 [L,QSA]\n";
+            $str_to_remove = "RewriteRule ^sfoglia/".$this->object->cleanAlias($this->oldValues['name'])."-([^/]*)\/$ /sfoglia/?".$this->oldValues['alias']."[]=$1 [L,QSA]";
             $str_to_insert = "RewriteRule ^sfoglia/".$name."-([^/]*)\/$ /sfoglia/?".$this->object->alias."[]=$1 [L,QSA]\n";
 
         }
@@ -89,9 +89,9 @@ class TaggerGroupUpdateProcessor extends modObjectUpdateProcessor {
         while (($buffer = fgets($f)) !== false) {
             if (strpos($buffer, $str_to_remove) !== false) {
                 $pos = ftell($f);
-                $newstr = substr_replace($oldstr, $str_to_insert, $pos-strlen($buffer), strlen($str_to_remove));
+                $newstr = substr_replace($oldstr, '', $pos-strlen($buffer), strlen($str_to_remove));
                 file_put_contents(MODX_BASE_PATH.".htaccess", $newstr);
-                parent::afterSave();
+                //parent::afterSave();
             }
         }
         rewind($f);
