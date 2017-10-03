@@ -91,10 +91,11 @@ class TaggerGroupUpdateProcessor extends modObjectUpdateProcessor {
                 $pos = ftell($f);
                 $newstr = substr_replace($oldstr, '', $pos-strlen($buffer), strlen($str_to_remove));
                 file_put_contents(MODX_BASE_PATH.".htaccess", $newstr);
+                $oldstr = $newstr;
+                rewind($f);
                 //parent::afterSave();
             }
         }
-        rewind($f);
         // read lines with fgets() until you have reached the right one
         //insert the line and than write in the file.
         $alreadyInsert = false;
