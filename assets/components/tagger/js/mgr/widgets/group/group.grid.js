@@ -89,8 +89,9 @@ Tagger.grid.Group = function(config) {
             ,editor: { xtype: 'tagger-combo-group-place', renderer: true }
             ,hidden: true
         },{
-            header: _('tagger.group.show_for_templates')
-            ,dataIndex: 'show_for_templates'
+            header: _('tagger.group.rank')
+            ,dataIndex: 'rank'
+            ,editor: { xtype: 'numberfield', renderer: true }
             ,width: 150
         },{
             header: _('tagger.group.position')
