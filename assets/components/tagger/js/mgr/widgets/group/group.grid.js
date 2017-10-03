@@ -44,8 +44,8 @@ Tagger.grid.Group = function(config) {
             ,sortable: true
             ,editor: { xtype: 'tagger-combo-filter-type', renderer: true }
         },{
-            header: _('tagger.group.remove_unused')
-            ,dataIndex: 'remove_unused'
+            header: _('tagger.group.visible')
+            ,dataIndex: 'visible'
             ,width: 150
             ,sortable: true
             ,renderer: this.rendYesNo
