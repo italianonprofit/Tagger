@@ -20,6 +20,8 @@ Ext.extend(Tagger.window.Group,MODx.Window, {
             ,anchor: '100%'
             ,hidden: true
         },{
+            html: '<p>N.B: Creando un nuovo gruppo si genera il codice htaccess per la serp di liv 1</p>'
+        },{
             layout: 'column'
             ,border: false
             ,anchor: '100%'
@@ -110,6 +112,27 @@ Ext.extend(Tagger.window.Group,MODx.Window, {
             ,description: _('tagger.group.show_for_contexts_desc')
             ,name: 'show_for_contexts'
             ,hiddenName: 'show_for_contexts'
+        },{
+            xtype: 'numberfield'
+            ,fieldLabel: _('tagger.group.tag_limit')
+            ,description: _('tagger.group.tag_limit_desc')
+            ,name: 'tag_limit'
+            ,hidden: false
+            ,allowNegative: false
+            ,allowDecimals: false
+            ,hiddenName: 'tag_limit'
+            ,enableKeyEvents: true
+            ,value: (config.record && config.record.tag_limit) ? config.record.tag_limit : 0
+            ,listeners: {
+                keyup: {
+                    fn: function() {
+                        try {
+                            this.checkAsRadio(this.fp.form.getValues());
+                        } catch (err) {}
+                    },
+                    scope: this
+                }
+            }
         }];
     }
 
@@ -159,7 +182,7 @@ Ext.extend(Tagger.window.Group,MODx.Window, {
             ,description: _('tagger.group.filter_type_desc')
             ,name: 'filter_type'
             ,hiddenName: 'filter_type'
-            ,allowBlank: true
+            ,allowBlank: false
             ,width:'100%'
         },{
             layout: 'column'
@@ -202,20 +225,49 @@ Ext.extend(Tagger.window.Group,MODx.Window, {
                 }]
             }]
         },{
-            xtype: 'xcheckbox'
-            ,fieldLabel: _('tagger.group.visible')
-            ,description: _('tagger.group.visible_desc')
-            ,name: 'visible'
-        },{
-            xtype: 'xcheckbox'
-            ,fieldLabel: _('tagger.group.searchable')
-            ,description: _('tagger.group.searchable_desc')
-            ,name: 'searchable'
+            layout: 'column'
+            ,border: false
+            ,anchor: '100%'
+            ,defaults: {
+                layout: 'form'
+                ,labelAlign: 'top'
+                ,labelSeparator: ''
+                ,anchor: '100%'
+                ,border: false
+            }
+            ,items: [{
+                columnWidth:.5
+                ,border: false
+                ,defaults: {
+                    msgTarget: 'under'
+                    ,anchor: '100%'
+                }
+                ,items: [{
+                    xtype: 'xcheckbox'
+                    ,fieldLabel: _('tagger.group.visible')
+                    ,description: _('tagger.group.visible_desc')
+                    ,name: 'visible'
+                }]
+            },{
+                columnWidth: .5
+                ,border: false
+                ,defaults: {
+                    msgTarget: 'under'
+                    ,anchor: '100%'
+                }
+                ,items: [{
+                    xtype: 'xcheckbox'
+                    ,fieldLabel: _('tagger.group.searchable')
+                    ,description: _('tagger.group.searchable_desc')
+                    ,name: 'searchable'
+                }]
+            }]
         },{
             xtype: 'numberfield'
             ,fieldLabel: _('tagger.group.rank')
             ,description: _('tagger.group.rank_desc')
             ,name: 'rank'
+            ,value:0
             ,allowBlank:false
         },{
             xtype: 'xcheckbox'
@@ -363,27 +415,6 @@ Ext.extend(Tagger.window.Group,MODx.Window, {
                 }
                 ,items: []
             }]
-        },{
-            xtype: 'numberfield'
-            ,fieldLabel: _('tagger.group.tag_limit')
-            ,description: _('tagger.group.tag_limit_desc')
-            ,name: 'tag_limit'
-            ,hidden: false
-            ,allowNegative: false
-            ,allowDecimals: false
-            ,hiddenName: 'tag_limit'
-            ,enableKeyEvents: true
-            ,value: (config.record && config.record.tag_limit) ? config.record.tag_limit : 0
-            ,listeners: {
-                keyup: {
-                    fn: function() {
-                        try {
-                            this.checkAsRadio(this.fp.form.getValues());
-                        } catch (err) {}
-                    },
-                    scope: this
-                }
-            }
         }];
     }
     
