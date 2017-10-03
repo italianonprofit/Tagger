@@ -57,6 +57,7 @@ Tagger.window.AssignedResources = function(config) {
         title: _('tagger.tag.assigned_resources')
         ,width: '60%'
         ,y: 40
+        ,autoHeight:true
         ,closeAction: 'close'
         ,url: Tagger.config.connectorUrl
         ,tagId: 0

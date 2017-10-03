@@ -32,12 +32,6 @@ Tagger.grid.Group = function(config) {
             ,sortable: true
             ,editor: { xtype: 'textfield' }
         },{
-            header: _('tagger.group.field_type')
-            ,dataIndex: 'field_type'
-            ,width: 100
-            ,sortable: true
-            ,editor: { xtype: 'tagger-combo-field-type', renderer: true }
-        },{
             header: _('tagger.group.filter_type')
             ,dataIndex: 'filter_type'
             ,width: 100
@@ -47,13 +41,6 @@ Tagger.grid.Group = function(config) {
             header: _('tagger.group.visible')
             ,dataIndex: 'visible'
             ,width: 150
-            ,sortable: true
-            ,renderer: this.rendYesNo
-            ,editor: { xtype: 'modx-combo-boolean' }
-        },{
-            header: _('tagger.group.allow_new')
-            ,dataIndex: 'allow_new'
-            ,width: 180
             ,sortable: true
             ,renderer: this.rendYesNo
             ,editor: { xtype: 'modx-combo-boolean' }

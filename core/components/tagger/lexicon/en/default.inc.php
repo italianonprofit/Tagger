@@ -19,7 +19,7 @@ $_lang['tagger.field.tagfield'] = 'Tag field';
 $_lang['tagger.field.combobox'] = 'Combo box';
 
 $_lang['tagger.group.groups'] = 'Groups';
-$_lang['tagger.group.intro_msg'] = 'In this section you can manage Groups. Each group will later contain tags.';
+$_lang['tagger.group.intro_msg'] = 'L\'aggiornamento di un gruppo implica anche l\'aggiornamento degli indici di ricerca e di htaccess. <br> La rimozione di un gruppo implica anche la rimozione dei corrispettivi Tag e Indici di ricerca.';
 $_lang['tagger.group.name'] = 'Name';
 $_lang['tagger.group.name_desc'] = 'Label of the field that will be added to Resource panel';
 $_lang['tagger.group.description'] = 'Description';
