@@ -12,6 +12,7 @@ $xpdo_meta_map['TaggerGroup']= array (
     'field_type' => NULL,
     'allow_new' => 0,
     'searchable' => 0,
+    'visible' => 0,
     'remove_unused' => 0,
     'allow_blank' => 0,
     'allow_type' => 0,
@@ -27,6 +28,7 @@ $xpdo_meta_map['TaggerGroup']= array (
     'sort_field' => 'alias',
     'sort_dir' => 'asc',
     'show_for_contexts' => '',
+    'rank' => 0,
   ),
   'fieldMeta' => 
   array (
@@ -68,6 +70,15 @@ $xpdo_meta_map['TaggerGroup']= array (
       'default' => 0,
     ),
     'searchable' => 
+    array (
+      'dbtype' => 'tinyint',
+      'attributes' => 'unsigned',
+      'precision' => '1',
+      'phptype' => 'boolean',
+      'null' => false,
+      'default' => 0,
+    ),
+    'visible' => 
     array (
       'dbtype' => 'tinyint',
       'attributes' => 'unsigned',
@@ -201,6 +212,15 @@ $xpdo_meta_map['TaggerGroup']= array (
       'phptype' => 'string',
       'null' => false,
       'default' => '',
+    ),
+    'rank' => 
+    array (
+      'dbtype' => 'integer',
+      'attributes' => 'unsigned',
+      'precision' => '10',
+      'phptype' => 'int',
+      'null' => false,
+      'default' => 0,
     ),
   ),
   'composites' => 
