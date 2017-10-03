@@ -203,9 +203,19 @@ Ext.extend(Tagger.window.Group,MODx.Window, {
             }]
         },{
             xtype: 'xcheckbox'
+            ,fieldLabel: _('tagger.group.visible')
+            ,description: _('tagger.group.visible_desc')
+            ,name: 'visible'
+        },{
+            xtype: 'xcheckbox'
             ,fieldLabel: _('tagger.group.searchable')
             ,description: _('tagger.group.searchable_desc')
             ,name: 'searchable'
+        },{
+            xtype: 'numberfield'
+            ,fieldLabel: _('tagger.group.rank')
+            ,description: _('tagger.group.rank_desc')
+            ,name: 'rank'
         },{
             xtype: 'xcheckbox'
             ,fieldLabel: _('tagger.group.remove_unused')
