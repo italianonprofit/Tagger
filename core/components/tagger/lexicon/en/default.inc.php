@@ -30,7 +30,7 @@ $_lang['tagger.group.field_type'] = 'Field type';
 $_lang['tagger.group.field_type_desc'] = 'Tag field - multi select field, Combo box - classic one item select field';
 $_lang['tagger.group.remove_unused'] = 'Remove unused tags';
 $_lang['tagger.group.remove_unused_desc'] = 'If set to <strong>yes</strong>, all tags, that are not assigned to at least one resource will be removed from database.';
-$_lang['tagger.group.rank'] = 'Importanza/peso?';
+$_lang['tagger.group.rank'] = 'Importanza/peso';
 $_lang['tagger.group.rank_desc'] = 'Minore è il numero, maggiore è l\'importanza del filtro.';
 $_lang['tagger.group.visible'] = 'Campo visibile in serp?';
 $_lang['tagger.group.visible_desc'] = 'If set to <strong>yes</strong>, users will be able to list tags from serp page.';
@@ -80,7 +80,7 @@ $_lang['tagger.group.sort_dir_desc'] = 'Sort direction - direction of sorting wh
 $_lang['tagger.group.sort_field'] = 'Sort Field';
 $_lang['tagger.group.sort_field_desc'] = 'Sort field - field used for sorting Tags';
 $_lang['tagger.group.sort_field_alias'] = 'Alias';
-$_lang['tagger.group.sort_field_rank'] = 'Rank';
+$_lang['tagger.group.sort_field_rank'] = 'Importanza/peso';
 $_lang['tagger.group.show_for_contexts'] = 'Show for Contexts';
 $_lang['tagger.group.show_for_contexts_desc'] = 'Comma separated list of context <strong>KEY</strong>s for that should be this group displayed. By default the group will appear for all contexts.';
 
@@ -109,7 +109,7 @@ $_lang['tagger.tag.remove_selected'] = 'Remove selected Tags';
 $_lang['tagger.tag.remove_selected_confirm'] = 'Are you sure, you want to remove all selected Tags?';
 $_lang['tagger.tag.merge'] = 'Merge Tags';
 $_lang['tagger.tag.assign'] = 'Assign';
-$_lang['tagger.tag.rank'] = 'Rank';
+$_lang['tagger.tag.rank'] = 'Importanza/peso';
 
 $_lang['setting_tagger.place_above_content_header'] = 'Above content header';
 $_lang['setting_tagger.place_above_content_header_desc'] = 'Show or hide header of the Tagger block, that shows above the content block.';
