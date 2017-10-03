@@ -90,6 +90,7 @@ $_lang['tagger.tag.tags'] = 'Tags';
 $_lang['tagger.tag.intro_msg'] = 'In this section you can manage Tags.';
 $_lang['tagger.tag.name'] = 'Name';
 $_lang['tagger.tag.alias'] = 'Alias';
+$_lang['tagger.tag.parent'] = 'Parent';
 $_lang['tagger.tag.group'] = 'Group';
 $_lang['tagger.tag.create'] = 'Create a new Tag';
 $_lang['tagger.tag.update'] = 'Update Tag';
