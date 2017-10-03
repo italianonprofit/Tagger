@@ -93,6 +93,7 @@ Tagger.grid.Group = function(config) {
             ,dataIndex: 'rank'
             ,editor: { xtype: 'numberfield', renderer: true }
             ,width: 150
+            ,sortable: true
         },{
             header: _('tagger.group.position')
             ,dataIndex: 'position'

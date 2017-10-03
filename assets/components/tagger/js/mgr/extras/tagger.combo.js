@@ -104,7 +104,6 @@ Tagger.combo.FilterType = function(config) {
         ,displayField: 'd'
         ,valueField: 'v'
         ,mode: 'local'
-        ,value: 'tagger-filter-tags'
         ,triggerAction: 'all'
         ,editable: false
         ,selectOnFocus: false
