@@ -216,6 +216,7 @@ Ext.extend(Tagger.window.Group,MODx.Window, {
             ,fieldLabel: _('tagger.group.rank')
             ,description: _('tagger.group.rank_desc')
             ,name: 'rank'
+            ,allowBlank:false
         },{
             xtype: 'xcheckbox'
             ,fieldLabel: _('tagger.group.remove_unused')
