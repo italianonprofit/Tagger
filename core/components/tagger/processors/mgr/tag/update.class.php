@@ -63,7 +63,7 @@ class TaggerTagUpdateProcessor extends modObjectUpdateProcessor {
      */
     public function afterSave()
     {
-        $this->cleanTagResource();
+        //$this->cleanTagResource();
         $parent = $this->getProperty('parent');
         if(empty($parent)) return parent::afterSave();
         $parentTag = $this->modx->getObject('TaggerTag',$parent);
