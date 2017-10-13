@@ -1,3 +1,26 @@
+
+Tagger.combo.TagSuperSelect = function(config) {
+    config = config || {};
+    Ext.applyIf(config,{
+        triggerAction: 'all'
+        ,lazyRender: true
+        ,mode: 'remote'
+        ,displayField: 'tag'
+        ,preventRender: true
+        ,valueField: 'id'
+        ,editable: true
+        ,fields: ['tag','id']
+        ,url: Tagger.config.connectorUrl
+        ,baseParams:{
+            action: 'mgr/tag/getlist',
+            limit:0
+        }
+    });
+    Tagger.combo.TagSuperSelect.superclass.constructor.call(this,config);
+};
+Ext.extend(Tagger.combo.TagSuperSelect,MODx.combo.ComboBox);
+Ext.reg('tagger-combo-TagSuperSelect',Tagger.combo.TagSuperSelect);
+
 Tagger.combo.Group = function(config) {
     config = config || {};
     Ext.applyIf(config,{
@@ -81,7 +104,6 @@ Tagger.combo.FilterType = function(config) {
         ,displayField: 'd'
         ,valueField: 'v'
         ,mode: 'local'
-        ,value: 'tagger-filter-tags'
         ,triggerAction: 'all'
         ,editable: false
         ,selectOnFocus: false

@@ -8,7 +8,7 @@ Tagger.grid.Group = function(config) {
         }
         ,save_action: 'mgr/group/updatefromgrid'
         ,autosave: true
-        ,fields: ['id', 'name', 'alias', 'filter_type', 'field_type', 'remove_unused', 'allow_new','searchable', 'allow_blank', 'allow_type', 'show_autotag', 'hide_input', 'tag_limit', 'show_for_templates', 'position', 'place', 'description', 'in_tvs_position', 'as_radio', 'sort_field', 'sort_dir', 'show_for_contexts']
+        ,fields: ['id', 'name', 'alias', 'rank', 'filter_type', 'field_type', 'remove_unused', 'allow_new','visible','searchable', 'allow_blank', 'allow_type', 'show_autotag', 'hide_input', 'tag_limit', 'show_for_templates', 'position', 'place', 'description', 'in_tvs_position', 'as_radio', 'sort_field', 'sort_dir', 'show_for_contexts']
         ,autoHeight: true
         ,paging: true
         ,remoteSort: true
@@ -32,28 +32,15 @@ Tagger.grid.Group = function(config) {
             ,sortable: true
             ,editor: { xtype: 'textfield' }
         },{
-            header: _('tagger.group.field_type')
-            ,dataIndex: 'field_type'
-            ,width: 100
-            ,sortable: true
-            ,editor: { xtype: 'tagger-combo-field-type', renderer: true }
-        },{
             header: _('tagger.group.filter_type')
             ,dataIndex: 'filter_type'
             ,width: 100
             ,sortable: true
             ,editor: { xtype: 'tagger-combo-filter-type', renderer: true }
         },{
-            header: _('tagger.group.remove_unused')
-            ,dataIndex: 'remove_unused'
+            header: _('tagger.group.visible')
+            ,dataIndex: 'visible'
             ,width: 150
-            ,sortable: true
-            ,renderer: this.rendYesNo
-            ,editor: { xtype: 'modx-combo-boolean' }
-        },{
-            header: _('tagger.group.allow_new')
-            ,dataIndex: 'allow_new'
-            ,width: 180
             ,sortable: true
             ,renderer: this.rendYesNo
             ,editor: { xtype: 'modx-combo-boolean' }
@@ -89,9 +76,11 @@ Tagger.grid.Group = function(config) {
             ,editor: { xtype: 'tagger-combo-group-place', renderer: true }
             ,hidden: true
         },{
-            header: _('tagger.group.show_for_templates')
-            ,dataIndex: 'show_for_templates'
+            header: _('tagger.group.rank')
+            ,dataIndex: 'rank'
+            ,editor: { xtype: 'numberfield', renderer: true }
             ,width: 150
+            ,sortable: true
         },{
             header: _('tagger.group.position')
             ,dataIndex: 'position'

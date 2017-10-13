@@ -89,12 +89,13 @@ class TaggerGroupUpdateProcessor extends modObjectUpdateProcessor {
         while (($buffer = fgets($f)) !== false) {
             if (strpos($buffer, $str_to_remove) !== false) {
                 $pos = ftell($f);
-                $newstr = substr_replace($oldstr, $str_to_insert, $pos-strlen($buffer), strlen($str_to_remove));
+                $newstr = substr_replace($oldstr, '', $pos-strlen($buffer), strlen($str_to_remove));
                 file_put_contents(MODX_BASE_PATH.".htaccess", $newstr);
-                parent::afterSave();
+                $oldstr = $newstr;
+                rewind($f);
+                //parent::afterSave();
             }
         }
-        rewind($f);
         // read lines with fgets() until you have reached the right one
         //insert the line and than write in the file.
         $alreadyInsert = false;
