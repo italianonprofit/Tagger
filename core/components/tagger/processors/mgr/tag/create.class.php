@@ -13,9 +13,12 @@ class TaggerTagCreateProcessor extends modObjectCreateProcessor {
     public $object;
 
     public function beforeSave() {
+        $this->modx->log(1,print_r($this->getProperties(),1));
         $name = $this->getProperty('tag');
         $group = $this->getProperty('group');
         $alias = $this->getProperty('alias');
+        $parent = $this->getProperty('parent',null);
+        if(empty($parent)) $this->setProperty('parent',null);
         //$classKey = $this->getProperty('classKey');
 
         if (empty($name) || empty($group) || empty($classKey)) {

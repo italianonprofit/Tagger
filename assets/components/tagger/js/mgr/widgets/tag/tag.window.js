@@ -38,6 +38,13 @@ Ext.extend(Tagger.window.Tag,MODx.Window, {
             ,anchor: '100%'
             ,allowBlank: true
         },{
+            xtype: 'Tagger-combo-UserGroup'
+            ,fieldLabel: _('tagger.tag.searchable_by')
+            ,name: 'searchable_by[]'
+            ,hiddenName: 'searchable_by[]'
+            ,anchor: '100%'
+            ,allowBlank: true
+        },{
             xtype: 'tagger-combo-group'
             ,fieldLabel: _('tagger.tag.group')
             ,name: 'group'

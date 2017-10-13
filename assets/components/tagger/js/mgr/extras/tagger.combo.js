@@ -1,4 +1,207 @@
+Tagger.combo.UserGroup = function(config, getStore) {
+    config = config || {};
+    Ext.applyIf(config,{
+        displayField: 'name'
+        ,valueField: 'id'
+        ,fields: ['id','name']
+        ,mode: 'remote'
+        ,forceFormValue: false
+        ,allowAddNewData: false
+        ,addNewDataOnBlur : false
+        ,itemDelimiterKey: 188
+        ,triggerAction: 'all'
+        ,typeAheadDelay: 200
+        ,valueDelimiter:','
+        ,minChars: 1
+        ,clearBtnCls: 'x-form-trigger'
+        ,expandBtnCls: 'x-form-trigger'
+        ,typeAhead: true
+        ,editable: true
+        ,forceSelection: true
+        ,pageSize: 20
+        ,url: MODx.config.connector_url
+        ,baseParams: {action: 'security/group/getlist'}
+    });
+    Ext.applyIf(config,{
+        store: new Ext.data.JsonStore({
+            url: config.url
+            ,root: 'results'
+            ,totalProperty: 'total'
+            ,fields: config.fields
+            ,errorReader: MODx.util.JSONReader
+            ,baseParams: config.baseParams || {}
+            ,remoteSort: config.remoteSort || false
+            ,autoDestroy: true
+        })
+    });
+    if (getStore === true) {
+        config.store.load();
+        return config.store;
+    }
 
+    Tagger.combo.UserGroup.superclass.constructor.call(this,config);
+
+    this.on('newitem', function(bs,v,f){
+
+        v = v.split(',');
+        Ext.each(v, function(item){
+            item = item.replace(/^\s+|\s+$/g, '');
+            var newObj = {
+                tag: item,
+                id: item
+            };
+            bs.addNewItem(newObj);
+        });
+    });
+    this.on('removeitem', function(combo){
+        combo.lastQuery = '';
+    });
+
+    this.on('blur', function(combo){
+        if(combo.lastQuery){
+            var v = combo.lastQuery.split(',');
+            Ext.each(v, function(item){
+                item = item.replace(/^\s+|\s+$/g, '');
+                var newObj = {
+                    tag: item
+                };
+                combo.addNewItem(newObj);
+            });
+        }
+    });
+    this.config = config;
+    return this;
+};
+Ext.extend(Tagger.combo.UserGroup,Ext.ux.form.SuperBoxSelect,{
+    setValue : function(value){
+
+        if(!this.rendered){
+            console.debug("non renderizzato");
+            this.value = value;
+            return;
+        }
+        this.removeAllItems().resetStore();
+
+        this.remoteLookup = [];
+
+        if(Ext.isEmpty(value)){
+            return;
+        }
+
+        if(!Ext.isEmpty(this.value)){
+            return value;
+        }
+        var values = value;
+        if(!Ext.isArray(value)){
+            value = '' + value;
+            values = value.split(this.valueDelimiter);
+        }
+
+        Ext.each(values,function(val){
+            val = val.replace(/^\s+|\s+$/g, '');
+            var record = this.findRecord(this.valueField, val);
+            if(record){
+                this.addRecord(record);
+            }else if(this.mode === 'remote'){
+                this.remoteLookup.push(val);
+            }
+        },this);
+
+        if(this.mode === 'remote'){
+            var q = this.remoteLookup.join(this.queryValuesDelimiter);
+            this.doQuery(q,false, true); //3rd param to specify a values query
+        }
+
+    },
+    refresh:function(value){
+        this.value = value;
+        var values = value.split(this.valueDelimiter);
+        this.getStore().load();
+        var ids = [];
+        Ext.each(this.items.items, function(item){
+            //tagField.addNewItem(item);
+            ids.push(item.value);
+            //this.addValue(item.value);ù
+
+            this.usedRecords.push(new Ext.ux.form.SuperBoxSelectItem({
+                caption: item.value,
+                value: item.value,
+                display: item.value
+            }));
+        });
+        this.value = ids.join(",");
+        this.startValue = ids.join(",");
+        Ext.each(values,function(val){
+            val = val.replace(/^\s+|\s+$/g, '');
+            var record = this.findRecord(this.valueField, val);
+            if(record){
+                this.addRecord(record);
+            }
+
+        },this);
+    }
+});
+Ext.reg('Tagger-combo-UserGroup',Tagger.combo.UserGroup);
+
+/*
+Tagger.combo.UserGroup = function (config, getStore) {
+    config = config || {};
+    Ext.applyIf(config, {
+        name: 'fake_groups'
+        ,hiddenName: 'fake_groups'
+        ,valueField: "id"
+        ,displayField: "name"
+        ,mode: 'remote'
+        ,triggerAction: 'all'
+        ,typeAhead: true
+        ,editable: true
+        ,forceSelection: false
+        ,extraItemCls: 'x-tag'
+        ,clearBtnCls: 'x-form-trigger'
+        ,expandBtnCls: 'x-form-trigger'
+        ,xtype:'superboxselect'
+        ,url: MODx.config.connector_url
+        ,baseParams: {
+            action: 'security/group/getlist'
+        }
+        ,fields: ['name','id','description']
+    });
+    Ext.applyIf(config,{
+
+        store: new Ext.data.JsonStore({
+            url: config.url
+            ,root: 'results'
+            ,fields: config.fields
+            ,errorReader: MODx.util.JSONReader
+            ,baseParams: config.baseParams || {}
+            ,remoteSort: config.remoteSort || false
+            ,autoDestroy: true
+            ,listeners: {
+                'load': {fn:function(store, records, options ) {
+                }}
+                ,scope : this
+            }
+        })
+        ,listeners: {
+            'beforeselect': {fn:function(combo, record, index ) {
+                if (record.data.is_parent == '1'){
+                    return false;
+                }
+            }}
+            ,scope : this
+        }
+    });
+    if (getStore === true) {
+        config.store.load();
+        return config.store;
+    }
+    Tagger.combo.UserGroup.superclass.constructor.call(this, config);
+    this.config = config;
+    return this;
+};
+Ext.extend(Tagger.combo.UserGroup, Ext.ux.form.SuperBoxSelect);
+Ext.reg('modx-superbox-group', Tagger.combo.UserGroup);
+*/
 Tagger.combo.TagSuperSelect = function(config) {
     config = config || {};
     Ext.applyIf(config,{

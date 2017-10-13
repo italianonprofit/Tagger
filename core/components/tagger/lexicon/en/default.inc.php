@@ -89,6 +89,7 @@ $_lang['tagger.tab.label'] = 'Tagger';
 $_lang['tagger.tag.tags'] = 'Tags';
 $_lang['tagger.tag.intro_msg'] = 'In this section you can manage Tags.';
 $_lang['tagger.tag.name'] = 'Name';
+$_lang['tagger.tag.searchable_by'] = 'Ricerca attiva per...(se lasciato vuoto è ricercabile da chiunque)';
 $_lang['tagger.tag.alias'] = 'Alias (generato automaticamente se lasciato vuoto)';
 $_lang['tagger.tag.parent'] = 'Parent Tag (Selezionando un Tag verranno associate tutte le risorse del tag parent)';
 $_lang['tagger.tag.group'] = 'Group';

@@ -10,7 +10,7 @@ abstract class TaggerBaseManagerController extends modExtraManagerController {
     public function initialize() {
         $this->tagger = new Tagger($this->modx);
 
-        $this->addCss($this->tagger->getOption('cssUrl').'mgr.css');
+        //$this->addCss($this->tagger->getOption('cssUrl').'mgr.css');
         $this->addJavascript($this->tagger->getOption('jsUrl').'mgr/tagger.js');
         $this->addHtml('<script type="text/javascript">
         Ext.onReady(function() {

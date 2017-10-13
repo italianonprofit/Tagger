@@ -33,6 +33,7 @@
         <field key="alias" dbtype="varchar" precision="255" phptype="string" null="false" />
         <field key="group" dbtype="integer" attributes="unsigned" precision="10" phptype="int" null="false" />
         <field key="parent" dbtype="integer" attributes="unsigned" precision="10" phptype="int" null="true" />
+        <field key="searchable_by" dbtype="varchar" precision="255" phptype="string" null="true" default="null" />
         <field key="rank" dbtype="integer" attributes="unsigned" precision="10" phptype="int" null="false" default="0" />
 
         <index alias="iTagGroup" name="iTagGroup" primary="false" unique="true" type="BTREE">

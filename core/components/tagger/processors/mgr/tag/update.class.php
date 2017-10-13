@@ -17,6 +17,13 @@ class TaggerTagUpdateProcessor extends modObjectUpdateProcessor {
         $name = $this->getProperty('tag');
         $group = $this->getProperty('group');
         $alias = $this->getProperty('alias');
+        $parent = $this->getProperty('parent',null);
+        $searchable_by = $this->getProperty('searchable_by',null);
+        if(!empty($searchable_by)) $this->object->set('searchable_by',json_encode($searchable_by));
+        else{
+            $this->object->set('searchable_by',null);
+        }
+        if(empty(trim($parent))) $this->object->set('parent',null,null);
 
         if (empty($name) || empty($group)) {
             if (empty($group)) {

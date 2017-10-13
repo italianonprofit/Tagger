@@ -41,6 +41,12 @@ class TaggerTagGetListProcessor extends modObjectGetListProcessor {
 
         return $c;
     }
+    public function prepareRow(xPDOObject $object)
+    {
+        $arr = $object->toArray();
+        $arr['searchable_by'] = implode(",",json_decode($arr['searchable_by']));
+        return $arr;
+    }
 
     public function outputArray(array $array,$count = false) {
         if ($count === false) { $count = count($array); }

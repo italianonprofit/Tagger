@@ -24,7 +24,7 @@ Tagger.grid.Tag = function(config) {
         }
         ,save_action: 'mgr/tag/updatefromgrid'
         ,autosave: true
-        ,fields: ['id', 'tag', 'alias', 'group', 'rank', 'parent']
+        ,fields: ['id', 'tag', 'alias', 'group', 'rank', 'parent', 'searchable_by']
         ,autoHeight: true
         ,paging: true
         ,remoteSort: true
@@ -219,10 +219,13 @@ Ext.extend(Tagger.grid.Tag,MODx.grid.Grid,{
                 'success': {fn:function() { this.refresh(); },scope:this}
             }
         });
-
         updateTag.fp.getForm().reset();
         updateTag.fp.getForm().setValues(this.menu.record);
         updateTag.show(e.target);
+
+        var groupField = updateTag.fp.getForm().items.items[4];
+        groupField.setValue(this.menu.record.searchable_by);
+        console.debug(groupField);
     }
 
     ,removeTag: function(btn,e) {

@@ -11,7 +11,7 @@ class TaggerHomeManagerController extends TaggerBaseManagerController {
     }
     public function getPageTitle() { return $this->modx->lexicon('tagger'); }
     public function loadCustomCssJs() {
-        $this->addCss($this->tagger->getOption('cssUrl').'superboxselect.css');
+        //$this->addCss($this->tagger->getOption('cssUrl').'superboxselect.css');
 
         $this->addJavascript($this->tagger->getOption('jsUrl').'mgr/extras/tagger.combo.js');
         $this->addJavascript($this->tagger->getOption('jsUrl').'mgr/extras/tagger.tagfield.js');
