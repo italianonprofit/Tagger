@@ -6,32 +6,45 @@ $xpdo_meta_map['TaggerTagCollection']= array (
   'extends' => 'xPDOSimpleObject',
   'fields' => 
   array (
-    'name' => NULL,
-    'groups' => NULL,
-    'tags' => NULL,
+    'parent_id' => NULL,
+    'child_id' => NULL,
   ),
   'fieldMeta' => 
   array (
-    'name' => 
+    'parent_id' => 
     array (
-      'dbtype' => 'varchar',
-      'precision' => '255',
-      'phptype' => 'string',
+      'dbtype' => 'int',
+      'precision' => '11',
+      'attributes' => 'unsigned',
+      'phptype' => 'integer',
       'null' => false,
     ),
-    'groups' => 
+    'child_id' => 
     array (
-      'dbtype' => 'varchar',
-      'precision' => '255',
-      'phptype' => 'string',
+      'dbtype' => 'int',
+      'precision' => '11',
+      'attributes' => 'unsigned',
+      'phptype' => 'integer',
       'null' => false,
     ),
-    'tags' => 
+  ),
+  'aggregates' => 
+  array (
+    'ParentTag' => 
     array (
-      'dbtype' => 'varchar',
-      'precision' => '1024',
-      'phptype' => 'string',
-      'null' => false,
+      'class' => 'TaggerTag',
+      'local' => 'parent_id',
+      'foreign' => 'id',
+      'cardinality' => 'one',
+      'owner' => 'foreign',
+    ),
+    'ChildTag' => 
+    array (
+      'class' => 'ChildTag',
+      'local' => 'child_id',
+      'foreign' => 'id',
+      'cardinality' => 'one',
+      'owner' => 'foreign',
     ),
   ),
 );

@@ -10,7 +10,7 @@ $xpdo_meta_map['TaggerTag']= array (
     'alias' => NULL,
     'group' => NULL,
     'parent' => NULL,
-    'searchable_by' => 'null',
+    'searchable_by' => NULL,
     'rank' => 0,
   ),
   'fieldMeta' => 
@@ -51,7 +51,6 @@ $xpdo_meta_map['TaggerTag']= array (
       'precision' => '255',
       'phptype' => 'string',
       'null' => true,
-      'default' => 'null',
     ),
     'rank' => 
     array (

@@ -32,8 +32,8 @@
         <field key="tag" dbtype="varchar" precision="255" phptype="string" null="false" />
         <field key="alias" dbtype="varchar" precision="255" phptype="string" null="false" />
         <field key="group" dbtype="integer" attributes="unsigned" precision="10" phptype="int" null="false" />
-        <field key="parent" dbtype="integer" attributes="unsigned" precision="10" phptype="int" null="true" />
-        <field key="searchable_by" dbtype="varchar" precision="255" phptype="string" null="true" default="null" />
+        <field key="parent" dbtype="integer" attributes="unsigned" precision="10" phptype="int" null="true"/>
+        <field key="searchable_by" dbtype="varchar" precision="255" phptype="string" null="true" />
         <field key="rank" dbtype="integer" attributes="unsigned" precision="10" phptype="int" null="false" default="0" />
 
         <index alias="iTagGroup" name="iTagGroup" primary="false" unique="true" type="BTREE">
@@ -73,13 +73,13 @@
             <column key="resource" length="" collation="A" null="false" />
             <column key="classKey" length="" collation="A" null="false" />
         </index>
-
         <aggregate alias="Tag" class="TaggerTag" local="tag" foreign="id" cardinality="one" owner="foreign" />
         <aggregate alias="Resource" class="modResource" local="resource" foreign="id" cardinality="one" owner="foreign" />
     </object>
     <object class="TaggerTagCollection" table="tagger_tag_collections" extends="xPDOSimpleObject">
-        <field key="name" dbtype="varchar" precision="255" phptype="string" null="false" />
-        <field key="groups" dbtype="varchar" precision="255" phptype="string" null="false" />
-        <field key="tags" dbtype="varchar" precision="1024" phptype="string" null="false"/>
+        <field key="parent_id" dbtype="int" precision="11" attributes="unsigned" phptype="integer" null="false" />
+        <field key="child_id" dbtype="int" precision="11" attributes="unsigned" phptype="integer" null="false" />
+        <aggregate alias="ParentTag" class="TaggerTag" local="parent_id" foreign="id" cardinality="one" owner="foreign" />
+        <aggregate alias="ChildTag" class="ChildTag" local="child_id" foreign="id" cardinality="one" owner="foreign" />
     </object>
 </model>

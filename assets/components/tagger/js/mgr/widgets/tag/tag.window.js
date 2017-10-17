@@ -94,6 +94,72 @@ Ext.extend(Tagger.window.AssignedResources,MODx.Window, {
 });
 Ext.reg('tagger-window-assigned-resources',Tagger.window.AssignedResources);
 
+Tagger.window.AssignedChilds = function(config) {
+    config = config || {};
+    Ext.applyIf(config,{
+        title: _('tagger.tag.assigned_childs')
+        ,width: '60%'
+        ,y: 40
+        ,autoHeight:true
+        ,closeAction: 'close'
+        ,url: Tagger.config.connectorUrl
+        ,tagId: 0
+        ,items: this.getFields(config)
+        ,buttons: [{
+            text: _('cancel')
+            ,scope: this
+            ,handler: function() {
+                this.close();
+            }
+        }]
+    });
+    Tagger.window.AssignedChilds.superclass.constructor.call(this,config);
+};
+Ext.extend(Tagger.window.AssignedChilds,MODx.Window, {
+    getFields: function(config) {
+        return [{
+            xtype: 'tagger-grid-assigned-childs'
+            ,baseParams: {
+                action: 'mgr/tag/getassignedchilds'
+                ,tagId: config.tagId
+            }
+            ,preventRender: true
+            ,cls: 'main-wrapper'
+        }];
+    }
+});
+Ext.reg('tagger-window-assigned-childs',Tagger.window.AssignedChilds);
+
+Tagger.window.AssignChild = function(config) {
+    config = config || {};
+    Ext.applyIf(config,{
+        title: 'Assegna un nuovo figlio'
+        ,width: '60%'
+        ,baseParams:{
+            action: 'mgr/tag/assignchild'
+            ,parent_id: config.tagId
+        }
+        ,y: 40
+        ,autoHeight:true
+        ,closeAction: 'close'
+        ,url: Tagger.config.connectorUrl
+        ,fields: this.getFields(config)
+    });
+    Tagger.window.AssignChild.superclass.constructor.call(this,config);
+};
+Ext.extend(Tagger.window.AssignChild,MODx.Window, {
+    getFields: function(config) {
+        return [{
+            xtype: 'tagger-combo-TagSuperSelect',
+            fieldLabel:'Tag',
+            anchor:'98%',
+            name: 'child_id',
+            hiddenName: 'child_id'
+        }];
+    }
+});
+Ext.reg('tagger-window-assign-child',Tagger.window.AssignChild);
+
 Tagger.window.MergeTags = function(config) {
     config = config || {};
     Ext.applyIf(config,{
