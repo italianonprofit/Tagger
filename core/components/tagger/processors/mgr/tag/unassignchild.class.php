@@ -12,7 +12,6 @@ class TaggerUnassignChildRemoveProcessor extends modObjectRemoveProcessor {
 
     public function initialize() {
         $prop = $this->getProperties();
-        $this->modx->log(1,print_r($prop,1));
         $primaryKey = $this->getProperty($this->primaryKeyField,false);
         if (empty($primaryKey)) return $this->modx->lexicon($this->objectType.'_err_ns');
         $this->object = $this->modx->getObject($this->classKey,$primaryKey);

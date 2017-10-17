@@ -24,7 +24,7 @@ Tagger.grid.Tag = function(config) {
         }
         ,save_action: 'mgr/tag/updatefromgrid'
         ,autosave: true
-        ,fields: ['id', 'tag', 'alias', 'group', 'rank', 'parent', 'searchable_by']
+        ,fields: ['id', 'tag', 'alias', 'group', 'rank', 'searchable_by']
         ,autoHeight: true
         ,paging: true
         ,remoteSort: true
@@ -53,12 +53,6 @@ Tagger.grid.Tag = function(config) {
             ,width: 200
             ,sortable: true
             ,editor: {xtype: 'tagger-combo-group', renderer: true, disabled: true}
-        },{
-            header: _('tagger.tag.parent')
-            ,dataIndex: 'parent'
-            ,width: 200
-            ,sortable: true
-            ,editor: {xtype: 'tagger-combo-TagSuperSelect', renderer: true, disabled: true}
         },{
             header: _('tagger.tag.rank')
             ,dataIndex: 'rank'

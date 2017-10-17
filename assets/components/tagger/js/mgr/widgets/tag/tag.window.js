@@ -31,13 +31,6 @@ Ext.extend(Tagger.window.Tag,MODx.Window, {
             ,anchor: '100%'
             ,allowBlank: true
         },{
-            xtype: 'tagger-combo-TagSuperSelect'
-            ,fieldLabel: _('tagger.tag.parent')
-            ,name: 'parent'
-            ,hiddenName: 'parent'
-            ,anchor: '100%'
-            ,allowBlank: true
-        },{
             xtype: 'Tagger-combo-UserGroup'
             ,fieldLabel: _('tagger.tag.searchable_by')
             ,name: 'searchable_by[]'
