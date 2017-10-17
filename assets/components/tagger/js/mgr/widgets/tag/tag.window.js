@@ -153,6 +153,36 @@ Ext.extend(Tagger.window.AssignChild,MODx.Window, {
 });
 Ext.reg('tagger-window-assign-child',Tagger.window.AssignChild);
 
+Tagger.window.AssignParent = function(config) {
+    config = config || {};
+    Ext.applyIf(config,{
+        title: 'Assegna un nuovo parent'
+        ,width: '60%'
+        ,baseParams:{
+            action: 'mgr/tag/assignparent'
+            ,child_id: config.tagId
+        }
+        ,y: 40
+        ,autoHeight:true
+        ,closeAction: 'close'
+        ,url: Tagger.config.connectorUrl
+        ,fields: this.getFields(config)
+    });
+    Tagger.window.AssignParent.superclass.constructor.call(this,config);
+};
+Ext.extend(Tagger.window.AssignParent,MODx.Window, {
+    getFields: function(config) {
+        return [{
+            xtype: 'tagger-combo-TagSuperSelect',
+            fieldLabel:'Tag',
+            anchor:'98%',
+            name: 'parent_id',
+            hiddenName: 'parent_id'
+        }];
+    }
+});
+Ext.reg('tagger-window-assign-parent',Tagger.window.AssignParent);
+
 Tagger.window.MergeTags = function(config) {
     config = config || {};
     Ext.applyIf(config,{

@@ -48,6 +48,11 @@ Tagger.grid.Tag = function(config) {
             ,sortable: true
             ,editor: { xtype: 'textfield' }
         },{
+            header: 'Searchable by'
+            ,dataIndex: 'searchable_by'
+            ,width: 200
+            ,sortable: true
+        },{
             header: _('tagger.tag.group')
             ,dataIndex: 'group'
             ,width: 200
@@ -164,6 +169,11 @@ Ext.extend(Tagger.grid.Tag,MODx.grid.Grid,{
         });
         m.push('-');
         m.push({
+            text: 'Assegna nuovo parent'
+            ,handler: this.assignParent
+        });
+        m.push('-');
+        m.push({
             text: _('tagger.tag.update')
             ,handler: this.updateTag
         });
@@ -201,6 +211,19 @@ Ext.extend(Tagger.grid.Tag,MODx.grid.Grid,{
         assignedChilds.show(e.target);
     }
 
+    ,assignedParents: function(btn,e) {
+        var assignedChilds = MODx.load({
+            xtype: 'tagger-window-assigned-parents'
+            ,tagId: this.menu.record.id
+            ,title: 'Parent Tag assegnati al tag'
+            ,listeners: {
+                'success': {fn:function() { this.refresh(); },scope:this}
+            }
+        });
+
+        assignedChilds.show(e.target);
+    }
+
     ,assignChild: function(btn,e) {
         var assignChild = MODx.load({
             xtype: 'tagger-window-assign-child'
@@ -212,6 +235,19 @@ Ext.extend(Tagger.grid.Tag,MODx.grid.Grid,{
         });
 
         assignChild.show(e.target);
+    }
+
+    ,assignParent: function(btn,e) {
+        var assignParent = MODx.load({
+            xtype: 'tagger-window-assign-parent'
+            ,tagId: this.menu.record.id
+            ,title: 'Assegna un parent al tag'
+            ,listeners: {
+                'success': {fn:function() { this.refresh(); },scope:this}
+            }
+        });
+
+        assignParent.show(e.target);
     }
 
     ,createTag: function(btn,e) {
@@ -251,10 +287,8 @@ Ext.extend(Tagger.grid.Tag,MODx.grid.Grid,{
         updateTag.fp.getForm().reset();
         updateTag.fp.getForm().setValues(this.menu.record);
         updateTag.show(e.target);
-
-        var groupField = updateTag.fp.getForm().items.items[4];
+        var groupField = updateTag.fp.getForm().items.items[3];
         groupField.setValue(this.menu.record.searchable_by);
-        console.debug(groupField);
     }
 
     ,removeTag: function(btn,e) {
@@ -568,7 +602,7 @@ Tagger.grid.AssignedChilds = function(config) {
         ,tbar: [{
             text: 'Aggiungi nuovo'
             ,id: 'tagger-grid-assign-child'
-            ,handler: this.assignNew
+            ,handler: this.assignNewChild
             ,scope: this
         },{
             text: _('tagger.tag.child_unasign_selected')
@@ -665,8 +699,8 @@ Ext.extend(Tagger.grid.AssignedChilds,MODx.grid.Grid,{
             }
         });
     }
-    ,assignNew: function(btn,e){
-        var assignNew = MODx.load({
+    ,assignNewChild: function(btn,e){
+        var assignNewChild = MODx.load({
             xtype: 'tagger-window-assign-child'
             ,tagId: this.config.baseParams.tagId
             ,title: 'Assegna nuovo figlio'
@@ -675,7 +709,19 @@ Ext.extend(Tagger.grid.AssignedChilds,MODx.grid.Grid,{
             }
         });
 
-        assignNew.show(e.target);
+        assignNewChild.show(e.target);
+    }
+    ,assignNewParent: function(btn,e){
+        var assignNewParent = MODx.load({
+            xtype: 'tagger-window-assign-parent'
+            ,tagId: this.config.baseParams.tagId
+            ,title: 'Assegna nuovo parent'
+            ,listeners: {
+                'success': {fn:function() { this.refresh(); },scope:this}
+            }
+        });
+
+        assignNewParent.show(e.target);
     }
     ,unassignSelected: function() {
         var ids = this.getSelectedAsList();
