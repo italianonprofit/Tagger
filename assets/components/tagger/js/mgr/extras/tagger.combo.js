@@ -212,12 +212,14 @@ Tagger.combo.TagSuperSelect = function(config) {
         ,preventRender: true
         ,valueField: 'id'
         ,editable: true
-        ,fields: ['tag','id']
+        ,fields: ['tag','id','TaggerGroup_name']
         ,url: Tagger.config.connectorUrl
         ,baseParams:{
             action: 'mgr/tag/getlist',
             limit:0
         }
+        ,tpl: '<tpl for="."><div class="x-combo-list-item">({id}) {tag} <br> <small>{TaggerGroup_name}</small></div></tpl>'
+
     });
     Tagger.combo.TagSuperSelect.superclass.constructor.call(this,config);
 };

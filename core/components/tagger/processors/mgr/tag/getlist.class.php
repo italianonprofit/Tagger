@@ -24,7 +24,11 @@ class TaggerTagGetListProcessor extends modObjectGetListProcessor {
 
     public function prepareQueryBeforeCount(xPDOQuery $c) {
         $query = $this->getProperty('query');
-
+        $c->innerJoin('TaggerGroup','TaggerGroup','TaggerGroup.id = TaggerTag.group');
+        $c->select(array(
+            $this->modx->getSelectColumns('TaggerTag','TaggerTag'),
+            $this->modx->getSelectColumns('TaggerGroup','TaggerGroup','TaggerGroup_',array('name')),
+        ));
         if (!empty($query)) {
             $c->where(array(
                     'LCASE(tag) LIKE LCASE("%'.$query.'%")'
