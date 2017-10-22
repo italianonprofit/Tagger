@@ -76,12 +76,12 @@ class TaggerGroupUpdateProcessor extends modObjectUpdateProcessor {
         $oldstr = file_get_contents($filepath);
 
         if ((strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')) {
-            $str_to_remove = "RewriteRule ^sfoglia/".$this->object->cleanAlias($this->oldValues['name'])."-([^/]*)\/$ /sfoglia/?".$this->oldValues['alias']."[]=$1 [L,QSA]\r";
-            $str_to_insert = "RewriteRule ^sfoglia/".$name."-([^/]*)\/$ /sfoglia/?".$this->object->alias."[]=$1 [L,QSA]\r";
+            $str_to_remove = "RewriteRule ^enti/".$this->object->cleanAlias($this->oldValues['name'])."-([^/]*)\/$ /enti/?".$this->oldValues['alias']."[]=$1 [L,QSA]\r";
+            $str_to_insert = "RewriteRule ^enti/".$name."-([^/]*)\/$ /enti/?".$this->object->alias."[]=$1 [L,QSA]\r";
 
         } else {
-            $str_to_remove = "RewriteRule ^sfoglia/".$this->object->cleanAlias($this->oldValues['name'])."-([^/]*)\/$ /sfoglia/?".$this->oldValues['alias']."[]=$1 [L,QSA]\n";
-            $str_to_insert = "RewriteRule ^sfoglia/".$name."-([^/]*)\/$ /sfoglia/?".$this->object->alias."[]=$1 [L,QSA]\n";
+            $str_to_remove = "RewriteRule ^enti/".$this->object->cleanAlias($this->oldValues['name'])."-([^/]*)\/$ /enti/?".$this->oldValues['alias']."[]=$1 [L,QSA]\n";
+            $str_to_insert = "RewriteRule ^enti/".$name."-([^/]*)\/$ /enti/?".$this->object->alias."[]=$1 [L,QSA]\n";
 
         }
        $specificLine = "#findme";

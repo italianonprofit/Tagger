@@ -82,10 +82,10 @@ class TaggerGroupCreateProcessor extends modObjectCreateProcessor {
         $oldstr = file_get_contents($filepath);
 
         if ((strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') || (strtoupper(substr(PHP_OS, 0, 3)) === 'DAR')) {
-            $str_to_insert = "RewriteRule ^sfoglia/".$name."-([^/]*)\/$ /sfoglia/?".$this->object->alias."[]=$1 [L,QSA]\r";
+            $str_to_insert = "RewriteRule ^enti/".$name."-([^/]*)\/$ /enti/?".$this->object->alias."[]=$1 [L,QSA]\r";
 
         } else {
-            $str_to_insert = "RewriteRule ^sfoglia/".$name."-([^/]*)\/$ /sfoglia/?".$this->object->alias."[]=$1 [L,QSA]\n";
+            $str_to_insert = "RewriteRule ^enti/".$name."-([^/]*)\/$ /enti/?".$this->object->alias."[]=$1 [L,QSA]\n";
 
         }
         $specificLine = "#findme";
