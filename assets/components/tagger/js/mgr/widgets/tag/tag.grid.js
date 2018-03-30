@@ -162,6 +162,10 @@ Ext.extend(Tagger.grid.Tag,MODx.grid.Grid,{
             text: _('tagger.tag.assigned_childs')
             ,handler: this.assignedChilds
         });
+        m.push({
+            text: "Tag Parent Assegnati"
+            ,handler: this.assignedParents
+        });
         m.push('-');
         m.push({
             text: 'Assegna nuovo figlio'
@@ -742,6 +746,175 @@ Ext.extend(Tagger.grid.AssignedChilds,MODx.grid.Grid,{
     }
 });
 Ext.reg('tagger-grid-assigned-childs',Tagger.grid.AssignedChilds);
+
+
+Tagger.grid.AssignedParents = function(config) {
+    config = config || {};
+
+    this.sm = new Ext.grid.CheckboxSelectionModel({
+        listeners: {
+            rowselect: function (sm, rowIndex, record) {
+                this.rememberRow(record);
+            }, scope: this, rowdeselect: function (sm, rowIndex, record) {
+                this.forgotRow(record);
+            }, scope: this
+        }
+    });
+
+    Ext.applyIf(config,{
+        url: Tagger.config.connectorUrl
+        ,baseParams: {
+            action: 'mgr/tag/getassignedparents'
+        }
+        ,fields: ['id','child_id','parent_id', 'TaggerTagChilds_tag','TaggerTagParent_tag']
+        ,autoHeight: true
+        ,paging: true
+        ,remoteSort: true
+        ,pageSize: 8
+        ,sm: this.sm
+        ,columns: [this.sm,{
+            header: _('id')
+            ,dataIndex: 'id'
+            ,width: 70
+            ,sortable: true
+        },{
+            header: 'Tag Figlio'
+            ,dataIndex: 'TaggerTagChilds_tag'
+            ,width: 200
+            ,sortable: true
+        },{
+            header: 'Tag Parent'
+            ,dataIndex: 'TaggerTagParent_tag'
+            ,width: 200
+            ,sortable: true
+        }]
+        ,tbar: [{
+            text: _('tagger.tag.child_unasign_selected')
+            ,id: 'tagger-grid-assigned-childs-unasign-selected'
+            ,handler: this.unassignSelected
+            ,scope: this
+            ,disabled: true
+        },'->',{
+            xtype: 'textfield'
+            ,emptyText: _('tagger.global.search') + '...'
+            ,listeners: {
+                'change': {fn:this.search,scope:this}
+                ,'render': {fn: function(cmp) {
+                    new Ext.KeyMap(cmp.getEl(), {
+                        key: Ext.EventObject.ENTER
+                        ,fn: function() {
+                            this.fireEvent('change',this);
+                            this.blur();
+                            return true;
+                        }
+                        ,scope: cmp
+                    });
+                },scope:this}
+            }
+        }]
+    });
+    Tagger.grid.AssignedParents.superclass.constructor.call(this,config);
+
+    this.getView().on('refresh', this.refreshSelection, this);
+};
+Ext.extend(Tagger.grid.AssignedParents,MODx.grid.Grid,{
+    windows: {}
+
+    ,selectedRecords: []
+
+    ,rememberRow: function(record) {
+        if(!this.selectedRecords.in_array(record.id)){
+            this.selectedRecords.push(record.id);
+        }
+
+        Ext.getCmp('tagger-grid-assigned-childs-unasign-selected').enable();
+    }
+
+    ,forgotRow: function(record){
+        this.selectedRecords.remove(record.id);
+
+        if (this.selectedRecords.length == 0) {
+            Ext.getCmp('tagger-grid-assigned-childs-unasign-selected').disable();
+        }
+    }
+
+    ,refreshSelection: function() {
+        var rowsToSelect = [];
+        Ext.each(this.selectedRecords, function(item){
+            rowsToSelect.push(this.store.indexOfId(item));
+        },this);
+        this.getSelectionModel().selectRows(rowsToSelect);
+    }
+
+    ,getSelectedAsList: function(){
+        return this.selectedRecords.join();
+    }
+
+    ,getMenu: function() {
+        var m = [];
+        m.push({
+            text: _('tagger.tag.child_unassign')
+            ,handler: this.unassignChild
+        });
+        this.addContextMenuItem(m);
+    }
+
+    ,search: function(tf,nv,ov) {
+        var s = this.getStore();
+        s.baseParams.query = tf.getValue();
+        this.getBottomToolbar().changePage(1);
+        this.refresh();
+    }
+
+    ,unassignChild: function() {
+        if (!this.menu.record) return false;
+        MODx.msg.confirm({
+            title: _('tagger.tag.child_unassign')
+            ,text: _('tagger.tag.child_unassign_confirm')
+            ,url: this.config.url
+            ,params: {
+                action: 'mgr/tag/unassignchild'
+                ,parent_id: this.config.baseParams.tagId
+                ,child_id: this.menu.record.id
+                ,id: this.menu.record.id
+            }
+            ,listeners: {
+                'success': {fn:function(r) { this.refresh(); },scope:this}
+            }
+        });
+    }
+    ,assignNewParent: function(btn,e){
+        var assignNewParent = MODx.load({
+            xtype: 'tagger-window-assign-parent'
+            ,tagId: this.config.baseParams.tagId
+            ,title: 'Assegna nuovo parent'
+            ,listeners: {
+                'success': {fn:function() { this.refresh(); },scope:this}
+            }
+        });
+
+        assignNewParent.show(e.target);
+    }
+    ,unassignSelected: function() {
+        return false; // TODO unassignparent processor
+        var ids = this.getSelectedAsList();
+        if (!ids) return false;
+        MODx.msg.confirm({
+            title: _('tagger.tag.child_unassign')
+            ,text: _('tagger.tag.child_unassign_multiple_confirm', {resources: ids})
+            ,url: this.config.url
+            ,params: {
+                action: 'mgr/tag/unassignchild'
+                ,tag: this.config.baseParams.tagId
+                ,ids: ids
+            }
+            ,listeners: {
+                'success': {fn:function(r) { this.refresh(); },scope:this}
+            }
+        });
+    }
+});
+Ext.reg('tagger-grid-assigned-parents',Tagger.grid.AssignedParents);
 
 
 

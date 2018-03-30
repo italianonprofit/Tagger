@@ -123,6 +123,42 @@ Ext.extend(Tagger.window.AssignedChilds,MODx.Window, {
 });
 Ext.reg('tagger-window-assigned-childs',Tagger.window.AssignedChilds);
 
+Tagger.window.AssignedParents = function(config) {
+    config = config || {};
+    Ext.applyIf(config,{
+        title: "TagParent assegnati"
+        ,width: '60%'
+        ,y: 40
+        ,autoHeight:true
+        ,closeAction: 'close'
+        ,url: Tagger.config.connectorUrl
+        ,tagId: 0
+        ,items: this.getFields(config)
+        ,buttons: [{
+            text: _('cancel')
+            ,scope: this
+            ,handler: function() {
+                this.close();
+            }
+        }]
+    });
+    Tagger.window.AssignedParents.superclass.constructor.call(this,config);
+};
+Ext.extend(Tagger.window.AssignedParents,MODx.Window, {
+    getFields: function(config) {
+        return [{
+            xtype: 'tagger-grid-assigned-parents'
+            ,baseParams: {
+                action: 'mgr/tag/getassignedparents'
+                ,tagId: config.tagId
+            }
+            ,preventRender: true
+            ,cls: 'main-wrapper'
+        }];
+    }
+});
+Ext.reg('tagger-window-assigned-parents',Tagger.window.AssignedParents);
+
 Tagger.window.AssignChild = function(config) {
     config = config || {};
     Ext.applyIf(config,{
