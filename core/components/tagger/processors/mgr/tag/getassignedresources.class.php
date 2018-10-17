@@ -28,22 +28,23 @@ class TaggerAssignedResourcesGetListProcessor extends modObjectGetListProcessor 
         $tagId = $this->getProperty('tagId');
 
         $c->innerJoin('TaggerTag', 'TaggerTag', array('TaggerTag.id = TaggerTagResource.tag'));
-        $c->leftJoin('Organizations', 'Organizations', array('Organizations.id = TaggerTagResource.resource AND TaggerTagResource.classKey = "Organizations"'));
-        $c->leftJoin('Cooperatives', 'Cooperatives', array('Cooperatives.id = TaggerTagResource.resource AND TaggerTagResource.classKey = "Cooperatives"'));
+        //$c->leftJoin('Organizations', 'Organizations', array('Organizations.id = TaggerTagResource.resource AND TaggerTagResource.classKey = "Organizations"'));
+        //$c->leftJoin('Cooperatives', 'Cooperatives', array('Cooperatives.id = TaggerTagResource.resource AND TaggerTagResource.classKey = "Cooperatives"'));
         $c->leftJoin('INPSummary', 'INPSummary', array('INPSummary.id = TaggerTagResource.resource AND TaggerTagResource.classKey = "INPSummary"'));
         $c->leftJoin('PreForm', 'PreForm', array('INPSummary.preform_id = PreForm.id'));
         $c->leftJoin('modUser', 'modUser', array('INPSummary.user_id = modUser.id'));
 
         $c->select(array(
             $this->modx->getSelectColumns('TaggerTagResource','TaggerTagResource'),
-            $this->modx->getSelectColumns('Organizations','Organizations','Organizations_'),
-            $this->modx->getSelectColumns('Cooperatives','Cooperatives','Cooperatives_'),
+            //$this->modx->getSelectColumns('Organizations','Organizations','Organizations_'),
+            //$this->modx->getSelectColumns('Cooperatives','Cooperatives','Cooperatives_'),
             $this->modx->getSelectColumns('INPSummary','INPSummary','INPSummary_'),
             $this->modx->getSelectColumns('PreForm','PreForm','PreForm_'),
             "INPSummary.user_id as INPSummary_user_id",
             "modUser.username as modUser_username",
             "TaggerTag.alias as alias"
         ));
+
         $c->where(array(
             'TaggerTagResource.tag' => $tagId
         ));
@@ -53,7 +54,7 @@ class TaggerAssignedResourcesGetListProcessor extends modObjectGetListProcessor 
             ));
         }
 
-        $c->groupby("TaggerTagResource.resource");
+        //$c->groupby("TaggerTagResource.resource");
         return $c;
     }
 
