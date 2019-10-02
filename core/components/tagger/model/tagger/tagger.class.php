@@ -14,10 +14,19 @@ class Tagger {
     public function __construct(modX &$modx, array $options = array()) {
         $this->modx =& $modx;
         $this->namespace = $this->getOption('namespace', $options, 'tagger');
+        // Load modNamespace
+        $namespace = $this->modx->getObject('modNamespace',array(
+            'name'=>$this->namespace
+        ));
+        if($namespace instanceof modNamespace){
+            $corePath = $namespace->getCorePath();
+            $assetsPath = $namespace->getAssetsPath();
+        }else{
+            $corePath = $this->getOption('core_path', $options, MODX_BASE_PATH."Tagger/core/components/tagger/");
+            $assetsPath = $this->getOption('assets_path', $options,MODX_BASE_PATH."Tagger/assets/components/tagger/");
+        }
 
-        $corePath = $this->getOption('core_path', $options, MODX_BASE_PATH."Tagger/core/components/tagger/");
-        $assetsPath = $this->getOption('assets_path', $options,MODX_BASE_PATH."Tagger/assets/components/tagger/");
-        $assetsUrl = $this->getOption('assets_url', $options, MODX_BASE_URL."Tagger/assets/components/tagger/");
+        $assetsUrl = $this->getOption('assets_url', $options, $this->modx->getOption('tagger.assets_url',null,MODX_BASE_URL."Tagger/assets/components/tagger/"));
 
         /* loads some default paths for easier management */
         $this->options = array_merge(array(
